@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Restaurants — Hmu</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script>(function(){var t=localStorage.getItem("darling-theme")||"dark";document.documentElement.setAttribute("data-theme",t);})()</script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0d0d0d;--surface:#161616;--surface2:#1e1e1e;--border:#2a2a2a;--accent:#c9922a;--accent2:#e8b84b;--text:#f0ede8;--muted:#8a8075;--nav-h:72px;}
+    [data-theme="light"]{--bg:#faf8f4;--surface:#ffffff;--surface2:#f2ede6;--border:#e0d8cc;--accent:#b07d1e;--accent2:#c9922a;--text:#1a1208;--muted:#7a6a55;}
+    [data-theme="light"] nav{background:rgba(250,248,244,0.95)!important;}
+    [data-theme="light"] .btn-login,[data-theme="light"] .btn-primary-gold,[data-theme="light"] .btn-search{color:#fff!important;}
+    .theme-toggle{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--surface2);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;transition:border-color .2s,transform .35s,background .3s;flex-shrink:0}
+    .theme-toggle:hover{border-color:var(--accent);transform:rotate(25deg)}
+    body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(13,13,13,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);transition:background .3s,border-color .3s}
+    .nav-brand{font-family:"Playfair Display",serif;font-size:1.25rem;font-weight:700;display:flex;align-items:center;gap:10px}
+    .nav-brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block}
+    .nav-links{display:flex;align-items:center;gap:8px;list-style:none}
+    .nav-links a{padding:6px 18px;border-radius:30px;font-size:.875rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;transition:background .2s,color .2s;color:var(--muted)}
+    .nav-links a:hover,.nav-links a.active{background:var(--surface2);color:var(--text)}
+    .nav-actions{display:flex;align-items:center;gap:12px}
+    .btn-login{background:var(--accent);color:#000!important;padding:8px 20px;border-radius:30px;font-weight:600;font-size:.875rem;display:flex;align-items:center;gap:6px;transition:background .2s}
+    .btn-login:hover{background:var(--accent2)}
+    /* Hamburger */
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;border:1px solid var(--border);border-radius:8px;background:var(--surface2)}
+    .hamburger span{display:block;width:20px;height:2px;background:var(--text);transition:all .3s}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .mobile-menu{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);z-index:999;padding:20px 24px;flex-direction:column;gap:8px}
+    .mobile-menu.open{display:flex}
+    .mobile-menu a{padding:12px 16px;border-radius:10px;font-size:.9rem;font-weight:500;color:var(--muted);transition:background .2s,color .2s}
+    .mobile-menu a:hover,.mobile-menu a.active{background:var(--surface2);color:var(--text)}
+
+    /* PAGE HEADER */
+    .page-header{padding:calc(var(--nav-h) + 60px) 48px 50px;border-bottom:1px solid var(--border)}
+    .page-header .label{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:12px}
+    .page-header h1{font-family:"Playfair Display",serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:700}
+
+    /* SEARCH */
+    .search-wrap{padding:40px 48px;background:var(--surface);transition:background .3s}
+    .search-card{background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:32px 36px}
+    .search-card h3{font-family:"Playfair Display",serif;font-size:1.1rem;margin-bottom:24px;color:var(--accent)}
+    .search-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:16px;align-items:end}
+    .field-group label{display:block;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;font-weight:500}
+    .field-group input,.field-group select{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text);font-family:inherit;font-size:.9rem;outline:none;transition:border-color .2s,background .3s;appearance:none}
+    .field-group input::placeholder{color:var(--muted)}
+    .field-group input:focus,.field-group select:focus{border-color:var(--accent)}
+    .field-group select option{background:var(--surface2);color:var(--text)}
+    .search-btns{display:flex;gap:10px;align-items:flex-end}
+    .btn-search{background:var(--accent);color:#000;border:none;padding:12px 24px;border-radius:10px;font-weight:700;font-size:.9rem;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .2s,transform .2s;white-space:nowrap}
+    .btn-search:hover{background:var(--accent2);transform:translateY(-1px)}
+    .btn-reset{background:transparent;color:var(--muted);border:1px solid var(--border);padding:12px 16px;border-radius:10px;font-weight:600;font-size:.85rem;cursor:pointer;transition:border-color .2s,color .2s;white-space:nowrap;font-family:inherit}
+    .btn-reset:hover{border-color:var(--accent);color:var(--accent)}
+    /* Quick filter pills */
+    .quick-filters{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+    .quick-filters .qlabel{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-right:4px}
+    .pill{padding:5px 14px;border-radius:20px;border:1px solid var(--border);font-size:.78rem;color:var(--muted);cursor:pointer;transition:border-color .2s,color .2s,background .2s;background:transparent;user-select:none}
+    .pill:hover,.pill.active{border-color:var(--accent);color:var(--accent);background:rgba(201,146,42,.08)}
+
+    /* TOOLBAR */
+    .results-toolbar{padding:24px 48px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+    .results-status{color:var(--muted);font-size:.85rem;letter-spacing:.05em}
+    .toolbar-right{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+    .fav-toggle-wrap{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--muted);cursor:pointer;user-select:none}
+    .fav-toggle-wrap input{accent-color:var(--accent);width:15px;height:15px;cursor:pointer}
+    .sort-wrap{display:flex;align-items:center;gap:8px}
+    .sort-wrap label{font-size:.78rem;color:var(--muted);white-space:nowrap}
+    .sort-wrap select{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text);font-family:inherit;font-size:.82rem;outline:none;cursor:pointer;transition:border-color .2s}
+    .sort-wrap select:focus{border-color:var(--accent)}
+
+    /* CARDS */
+    .results-wrap{padding:24px 48px 48px}
+    #result{display:flex;flex-direction:column;gap:24px}
+    .restaurant-card{display:grid;grid-template-columns:280px 1fr;background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:border-color .3s,transform .3s,background .3s;position:relative}
+    .restaurant-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+    .restaurant-card img{width:100%;height:220px;object-fit:cover;display:block;cursor:pointer}
+    .card-body{padding:32px 36px;display:flex;flex-direction:column;gap:12px}
+    .card-body h3{font-family:"Playfair Display",serif;font-size:1.4rem;font-weight:700}
+    .card-meta{display:flex;flex-wrap:wrap;gap:16px}
+    .meta-item{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted)}
+    .meta-item .fa{color:var(--accent);font-size:.8rem}
+    .rating-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(201,146,42,.12);border:1px solid rgba(201,146,42,.3);color:var(--accent);padding:4px 12px;border-radius:20px;font-size:.8rem;font-weight:600}
+    .budget-badge{display:inline-flex;align-items:center;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 12px;border-radius:20px;font-size:.8rem;font-weight:600}
+    .review-box{margin-top:8px;padding:14px 18px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;font-size:.85rem;color:var(--muted);line-height:1.6;font-style:italic}
+    .card-actions{display:flex;gap:10px;margin-top:4px;flex-wrap:wrap}
+    .btn-action{background:transparent;border:1px solid var(--border);color:var(--muted);padding:7px 14px;border-radius:8px;font-size:.78rem;cursor:pointer;display:flex;align-items:center;gap:6px;transition:border-color .2s,color .2s;font-family:inherit}
+    .btn-action:hover{border-color:var(--accent);color:var(--accent)}
+    .btn-action.faved{color:#e84545;border-color:#e84545}
+    /* heart on image */
+    .fav-img-btn{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.55);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:transform .2s;backdrop-filter:blur(4px)}
+    .fav-img-btn:hover{transform:scale(1.2)}
+
+    /* SKELETON */
+    .skeleton-card{display:grid;grid-template-columns:280px 1fr;background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+    .skel{background:linear-gradient(90deg,var(--surface2) 25%,var(--border) 50%,var(--surface2) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
+    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+    .skel-img{height:220px;width:100%}
+    .skel-body{padding:32px 36px;display:flex;flex-direction:column;gap:14px}
+    .skel-line{height:14px;border-radius:6px}
+    .skel-title{height:22px;width:55%;border-radius:6px}
+
+    .no-result{text-align:center;padding:80px 40px;color:var(--muted)}
+    .no-result .fa{font-size:2.5rem;display:block;margin-bottom:16px;color:var(--accent)}
+
+    /* PAGINATION */
+    .pagination{display:flex;align-items:center;justify-content:center;gap:8px;padding:24px 48px 16px;flex-wrap:wrap}
+    .page-btn{min-width:38px;height:38px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .2s,color .2s,background .2s;font-family:inherit;padding:0 10px}
+    .page-btn:hover,.page-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(201,146,42,.08)}
+    .page-btn:disabled{opacity:.35;cursor:not-allowed;pointer-events:none}
+
+    /* DETAIL MODAL */
+    .modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px}
+    .modal-overlay.open{display:flex}
+    .modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;width:100%;max-width:600px;position:relative;animation:modal-in .3s ease;max-height:92vh;display:flex;flex-direction:column;overflow:hidden}
+    @keyframes modal-in{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+    .modal-close{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.55);border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;font-size:.9rem;z-index:10;transition:background .2s;backdrop-filter:blur(4px)}
+    .modal-close:hover{background:rgba(0,0,0,.85)}
+    .modal-img{width:100%;height:200px;object-fit:cover;border-radius:20px 20px 0 0;display:block;flex-shrink:0}
+    /* TABS */
+    .modal-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--surface)}
+    .modal-tab{flex:1;padding:13px 8px;text-align:center;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+    .modal-tab:hover{color:var(--text)}
+    .modal-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+    .modal-tab-content{display:none;padding:22px 26px 26px;overflow-y:auto;flex:1}
+    .modal-tab-content.active{display:block}
+    /* overview */
+    .modal h2{font-family:"Playfair Display",serif;font-size:1.45rem;margin-bottom:12px}
+    .modal-desc{padding:13px 16px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;font-size:.86rem;color:var(--muted);line-height:1.65;font-style:italic;margin-top:10px}
+    /* reviews tab */
+    .reviews-header{display:flex;align-items:center;gap:16px;background:var(--surface2);border-radius:12px;padding:16px 18px;margin-bottom:20px}
+    .rh-score{font-family:"Playfair Display",serif;font-size:2.6rem;font-weight:700;color:var(--accent);line-height:1}
+    .rh-right{}
+    .rh-stars{color:var(--accent);font-size:1.1rem;letter-spacing:2px}
+    .rh-count{font-size:.78rem;color:var(--muted);margin-top:3px}
+    .write-review-box{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:20px}
+    .write-review-box h4{font-family:"Playfair Display",serif;font-size:.95rem;margin-bottom:14px;color:var(--text)}
+    .star-picker{display:flex;gap:8px;font-size:1.8rem;cursor:pointer;margin-bottom:12px}
+    .star-picker span{color:var(--border);transition:color .12s,transform .1s;line-height:1;user-select:none}
+    .star-picker span:hover{transform:scale(1.2)}
+    .star-picker span.lit{color:var(--accent)}
+    .write-review-box textarea{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-family:inherit;font-size:.88rem;outline:none;resize:vertical;min-height:80px;transition:border-color .2s}
+    .write-review-box textarea:focus{border-color:var(--accent)}
+    .write-review-box textarea::placeholder{color:var(--muted)}
+    .btn-post{background:var(--accent);color:#000;border:none;padding:11px;border-radius:8px;font-weight:700;font-size:.88rem;cursor:pointer;margin-top:10px;transition:background .2s;font-family:inherit;width:100%;display:flex;align-items:center;justify-content:center;gap:7px}
+    .btn-post:hover{background:var(--accent2)}
+    .login-review-prompt{background:var(--surface2);border:1px dashed var(--border);border-radius:12px;padding:22px;text-align:center;margin-bottom:20px}
+    .login-review-prompt .lrp-icon{font-size:2rem;margin-bottom:10px}
+    .login-review-prompt p{color:var(--muted);font-size:.87rem;margin-bottom:14px;line-height:1.6}
+    .btn-login-to-review{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#000;padding:10px 24px;border-radius:30px;font-weight:700;font-size:.85rem;transition:background .2s}
+    .btn-login-to-review:hover{background:var(--accent2)}
+    .user-reviews{display:flex;flex-direction:column;gap:10px}
+    .ur-item{background:var(--surface2);border-radius:10px;padding:14px 16px}
+    .ur-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+    .ur-name{font-weight:700;color:var(--text);font-size:.87rem}
+    .ur-stars{color:var(--accent);font-size:.85rem;letter-spacing:1px}
+    .ur-text{font-size:.85rem;color:var(--muted);line-height:1.55}
+    .ur-date{font-size:.72rem;color:var(--muted);margin-top:5px}
+    .ur-empty{text-align:center;color:var(--muted);font-size:.87rem;padding:28px 0}
+
+    /* SUBMIT RESTAURANT MODAL styles moved to suggest.html */
+
+    /* TOAST */
+    .toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 24px;font-size:.875rem;color:var(--text);z-index:3000;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;white-space:nowrap}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+    /* FAB */
+
+    footer{background:var(--surface);border-top:1px solid var(--border);padding:40px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;transition:background .3s,border-color .3s}
+    footer p{color:var(--muted);font-size:.85rem}
+    .social-links{display:flex;gap:12px}
+    .social-links a{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:border-color .2s,color .2s}
+    .social-links a:hover{border-color:var(--accent);color:var(--accent)}
+
+    @media(max-width:900px){
+      nav{padding:0 24px}
+      .nav-links{display:none}
+      .hamburger{display:flex}
+      .page-header,.search-wrap,.results-toolbar,.results-wrap,.pagination{padding-left:24px;padding-right:24px}
+      .search-grid{grid-template-columns:1fr 1fr}
+      .search-btns{grid-column:1/-1;justify-content:flex-start}
+      .restaurant-card{grid-template-columns:1fr}
+      .restaurant-card img{height:200px}
+      .skeleton-card{grid-template-columns:1fr}
+      .skel-img{height:200px}
+    }
+    @media(max-width:600px){
+      .search-grid{grid-template-columns:1fr}
+      .results-toolbar{flex-direction:column;align-items:flex-start}
+    }
+
+    #nav-user-btn:hover{border-color:var(--accent) !important;}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="index.html"><span class="dot"></span>Restaurant Recommendation System</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html" class="active">Restaurants</a></li>
+    <li><a href="suggest.html">Suggest</a></li>
+    <li><a href="why.html">About Us</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="Login.html" class="btn-login" id="nav-login-btn"><i class="fa fa-user"></i> Login</a>
+    <div id="nav-user-btn" style="display:none;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px 16px;border-radius:30px;font-weight:600;font-size:.875rem;cursor:pointer;transition:border-color .2s" onclick="window.location='Login.html'">
+      <div id="nav-avatar" style="width:26px;height:26px;border-radius:50%;background:var(--accent);color:#000;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0">?</div>
+      <span id="nav-username"></span>
+    </div>
+    <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark mode">☀️</button>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="shop.html" class="active">Restaurants</a>
+  <a href="suggest.html">Suggest</a>
+  <a href="why.html">About Us</a>
+  <a href="Login.html" id="mobile-login-link">Login / Register</a>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="label">Explore</div>
+  <h1>Browse Restaurants</h1>
+</div>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <div class="search-card">
+    <h3><i class="fa fa-sliders"></i> &nbsp;Filter Results</h3>
+    <div class="search-grid">
+      <div class="field-group">
+        <label>Restaurant Name</label>
+        <input type="text" id="search" placeholder="e.g. Katong Kitchen" />
+      </div>
+      <div class="field-group">
+        <label>Cuisine Type</label>
+        <input type="text" id="food" placeholder="e.g. Thai, Western, Chinese" />
+      </div>
+      <div class="field-group">
+        <label>Budget</label>
+        <select id="budget">
+          <option value="">Any Budget</option>
+          <option value="$">$ — Budget</option>
+          <option value="$$">$$ — Mid-range</option>
+          <option value="$$$">$$$ — Premium</option>
+          <option value="$$$$">$$$$ — Fine Dining</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Location</label>
+        <input type="text" id="location" placeholder="e.g. Orchard, Marina Bay" />
+      </div>
+      <div class="search-btns">
+        <button class="btn-search" onclick="doSearch()"><i class="fa fa-search"></i> Search</button>
+        <button class="btn-reset" onclick="resetFilters()">Reset</button>
+      </div>
+    </div>
+    <!-- Quick filter pills -->
+    <div class="quick-filters">
+      <span class="qlabel">Quick:</span>
+      <span class="pill" onclick="quickFilter('food','Chinese')">🍲 Chinese</span>
+      <span class="pill" onclick="quickFilter('food','Western')">🍝 Western</span>
+      <span class="pill" onclick="quickFilter('food','Japanese')">🍱 Japanese</span>
+      <span class="pill" onclick="quickFilter('food','Indian')">🥘 Indian</span>
+      <span class="pill" onclick="quickFilter('food','Thai')">🍜 Thai</span>
+      <span class="pill" onclick="quickFilter('food','Korean')">🥩 Korean</span>
+      <span class="pill" onclick="quickFilter('food','Seafood')">🦞 Seafood</span>
+      <span class="pill" onclick="quickFilter('budget','$')">$ Budget</span>
+      <span class="pill" onclick="quickFilter('budget','$$')">$$ Mid-range</span>
+      <span class="pill" onclick="quickFilter('budget','$$$')">$$$ Premium</span>
+    </div>
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="results-toolbar">
+  <div class="results-status" id="status">Loading restaurants…</div>
+  <div class="toolbar-right">
+    <!-- Fav filter: shown only when logged in -->
+    <label class="fav-toggle-wrap" id="fav-filter-wrap" style="display:none">
+      <input type="checkbox" id="fav-only" onchange="renderPage()"> ❤ Favourites Only
+    </label>
+    <!-- Lock hint: shown when logged out -->
+    <a href="Login.html" id="fav-filter-locked" class="fav-toggle-wrap" style="display:none;text-decoration:none;color:var(--muted)" title="Login to use favourites filter">
+      🔒 Favourites Only <span style="font-size:.75rem;margin-left:2px">(login)</span>
+    </a>
+    <div class="sort-wrap">
+      <label for="sort-sel">Sort:</label>
+      <select id="sort-sel" onchange="renderPage()">
+        <option value="rating-desc">Rating ↓</option>
+        <option value="rating-asc">Rating ↑</option>
+        <option value="name-asc">Name A→Z</option>
+        <option value="name-desc">Name Z→A</option>
+        <option value="budget-asc">Budget Low→High</option>
+        <option value="budget-desc">Budget High→Low</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div class="results-wrap">
+  <div id="result">
+    <div class="skeleton-card"><div class="skel skel-img"></div><div class="skel-body"><div class="skel skel-title"></div><div class="skel skel-line" style="width:70%"></div><div class="skel skel-line" style="width:45%"></div><div class="skel skel-line" style="width:80%;margin-top:8px"></div></div></div>
+    <div class="skeleton-card"><div class="skel skel-img"></div><div class="skel-body"><div class="skel skel-title"></div><div class="skel skel-line" style="width:65%"></div><div class="skel skel-line" style="width:50%"></div><div class="skel skel-line" style="width:75%;margin-top:8px"></div></div></div>
+    <div class="skeleton-card"><div class="skel skel-img"></div><div class="skel-body"><div class="skel skel-title"></div><div class="skel skel-line" style="width:60%"></div><div class="skel skel-line" style="width:42%"></div><div class="skel skel-line" style="width:85%;margin-top:8px"></div></div></div>
+  </div>
+</div>
+
+<!-- PAGINATION -->
+<div class="pagination" id="pagination"></div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()"><i class="fa fa-times"></i></button>
+    <img class="modal-img" id="modal-img" src="" alt="" onerror="this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80'" />
+
+    <!-- TABS -->
+    <div class="modal-tabs">
+      <div class="modal-tab active" id="tab-overview" onclick="switchTab('overview')">
+        <i class="fa fa-info-circle"></i> Overview
+      </div>
+      <div class="modal-tab" id="tab-reviews" onclick="switchTab('reviews')">
+        <i class="fa fa-star"></i> Reviews <span id="tab-review-count" style="background:var(--surface2);border-radius:20px;padding:1px 8px;font-size:.72rem;margin-left:2px">0</span>
+      </div>
+    </div>
+
+    <!-- OVERVIEW TAB -->
+    <div class="modal-tab-content active" id="tab-content-overview">
+      <h2 id="modal-name"></h2>
+      <div class="card-meta" style="margin-bottom:4px">
+        <span class="meta-item"><i class="fa fa-map-marker"></i> <span id="modal-location"></span></span>
+        <span class="meta-item"><i class="fa fa-cutlery"></i> <span id="modal-food"></span></span>
+        <span class="rating-badge"><i class="fa fa-star"></i> <span id="modal-rating"></span></span>
+        <span class="budget-badge"><span id="modal-budget"></span></span>
+      </div>
+      <div class="modal-desc" id="modal-review"></div>
+    </div>
+
+    <!-- REVIEWS TAB -->
+    <div class="modal-tab-content" id="tab-content-reviews">
+
+      <!-- Summary bar -->
+      <div class="reviews-header" id="reviews-header">
+        <div class="rh-score" id="rh-score">—</div>
+        <div class="rh-right">
+          <div class="rh-stars" id="rh-stars">☆☆☆☆☆</div>
+          <div class="rh-count" id="rh-count">No reviews yet</div>
+        </div>
+      </div>
+
+      <!-- Write a review — logged in -->
+      <div class="write-review-box" id="review-form-wrap">
+        <h4>✍️ Write a Review</h4>
+        <div class="star-picker" id="star-picker">
+          <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
+        </div>
+        <textarea id="review-text" placeholder="Share your dining experience — food, atmosphere, service…"></textarea>
+        <button class="btn-post" onclick="submitReview()"><i class="fa fa-paper-plane"></i> Post Review</button>
+      </div>
+
+      <!-- Write a review — not logged in -->
+      <div class="login-review-prompt" id="review-login-prompt" style="display:none">
+        <div class="lrp-icon">🔒</div>
+        <p>Login to share your experience and rate this restaurant.</p>
+        <a href="Login.html" class="btn-login-to-review"><i class="fa fa-user"></i> Login to Review</a>
+      </div>
+
+      <!-- Posted reviews list -->
+      <div class="user-reviews" id="user-reviews"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Suggest a Restaurant moved to suggest.html -->
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+
+<footer>
+  <p>&copy; <span id="yr"></span> Hmu Restaurant Recommendation. All Rights Reserved.</p>
+  <div class="social-links">
+    <a href="#"><i class="fa fa-facebook"></i></a>
+    <a href="#"><i class="fa fa-twitter"></i></a>
+    <a href="#"><i class="fa fa-instagram"></i></a>
+    <a href="#"><i class="fa fa-youtube"></i></a>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("yr").textContent = new Date().getFullYear();
+
+  var PHP_URL = "https://restaurantrecommendation.infinityfreeapp.com/get_restaurants.php";
+  var PER_PAGE = 10;
+  var allData = [];
+  var currentPage = 1;
+  var selectedStar = 0;
+  var currentRestaurant = null;
+
+  /* ── FAVOURITES ── */
+  function getFavs(){ try{ return JSON.parse(localStorage.getItem("hmu-favs")||"[]"); }catch(e){ return []; } }
+  function setFavs(arr){ localStorage.setItem("hmu-favs", JSON.stringify(arr)); }
+  function isFav(name){ return getFavs().indexOf(name) !== -1; }
+  function toggleFav(name){
+    // ── REQUIRE LOGIN ──
+    if(!localStorage.getItem("hmu-username")){
+      showLoginPrompt();
+      return;
+    }
+    var favs = getFavs(), idx = favs.indexOf(name);
+    if(idx === -1){ favs.push(name); } else { favs.splice(idx,1); }
+    setFavs(favs);
+    renderPage();
+    showToast(idx === -1 ? "❤ Added to Favourites" : "Removed from Favourites");
+  }
+
+  /* ── BUDGET ORDER ── */
+  var bOrd = {"$":1,"$$":2,"$$$":3,"$$$$":4};
+
+  /* ── SORT ── */
+  function sortData(arr){
+    var s = document.getElementById("sort-sel").value;
+    return arr.slice().sort(function(a,b){
+      if(s==="rating-asc") return parseFloat(a.rating||0)-parseFloat(b.rating||0);
+      if(s==="name-asc") return (a.name||"").localeCompare(b.name||"");
+      if(s==="name-desc") return (b.name||"").localeCompare(a.name||"");
+      if(s==="budget-asc") return (bOrd[a.budget]||0)-(bOrd[b.budget]||0);
+      if(s==="budget-desc") return (bOrd[b.budget]||0)-(bOrd[a.budget]||0);
+      return parseFloat(b.rating||0)-parseFloat(a.rating||0);
+    });
+  }
+
+  /* ── RENDER ── */
+  function renderPage(){
+    var favOnlyEl = document.getElementById("fav-only");
+    var favOnly = favOnlyEl && favOnlyEl.checked;
+    var sorted = sortData(allData);
+    if(favOnly){ var f=getFavs(); sorted=sorted.filter(function(r){ return f.indexOf(r.name)!==-1; }); }
+
+    var statusEl = document.getElementById("status");
+    if(!sorted.length){
+      document.getElementById("result").innerHTML = "<div class='no-result'><i class='fa fa-search'></i><h3>No Restaurants Found</h3><p>Try adjusting your filters.</p></div>";
+      document.getElementById("pagination").innerHTML = "";
+      statusEl.textContent = "0 results found";
+      return;
+    }
+    statusEl.textContent = sorted.length + " restaurant" + (sorted.length!==1?"s":"") + " found";
+
+    var totalPages = Math.ceil(sorted.length/PER_PAGE);
+    if(currentPage > totalPages) currentPage = 1;
+    var slice = sorted.slice((currentPage-1)*PER_PAGE, currentPage*PER_PAGE);
+
+    document.getElementById("result").innerHTML = slice.map(buildCard).join("");
+    buildPagination(totalPages);
+  }
+
+  function buildCard(r){
+    var img = r.image || "";
+    var faved = isFav(r.name);
+    var ns = esc(r.name), ls = esc(r.location||""), fs = esc(r.food||""), bs = esc(r.budget||""), rs = esc(String(r.rating)), rv = esc(r.review||"");
+    return "<div class='restaurant-card'>"+
+      "<button class='fav-img-btn' onclick=\"toggleFav('"+ns+"')\" title='Save'>"+( faved?"❤":"🤍")+"</button>"+
+      "<img src='"+img+"' alt='"+ns+"'"+
+        " onerror=\"this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&q=80'\""+
+        " onclick=\"openModal(this)\""+
+        " data-name=\""+ns+"\" data-location=\""+ls+"\" data-food=\""+fs+"\""+
+        " data-rating=\""+rs+"\" data-budget=\""+bs+"\" data-review=\""+rv+"\" data-img=\""+img+"\" />"+
+      "<div class='card-body'>"+
+        "<h3>"+r.name+"</h3>"+
+        "<div class='card-meta'>"+
+          "<span class='meta-item'><i class='fa fa-map-marker'></i> "+(r.location||"")+"</span>"+
+          "<span class='meta-item'><i class='fa fa-cutlery'></i> "+(r.food||"")+"</span>"+
+          "<span class='rating-badge'><i class='fa fa-star'></i> "+r.rating+"</span>"+
+          "<span class='budget-badge'>"+(r.budget||"")+"</span>"+
+        "</div>"+
+        (r.review?"<div class='review-box'>"+r.review+"</div>":"")+
+        "<div class='card-actions'>"+
+          "<button class='btn-action "+(faved?"faved":"")+"' onclick=\"toggleFav('"+ns+"')\">"+( faved?"❤ Saved":"🤍 Save")+"</button>"+
+          "<button class='btn-action' onclick=\"openModalOnTab(this,'reviews')\" data-name=\""+ns+"\" data-location=\""+ls+"\" data-food=\""+fs+"\" data-rating=\""+rs+"\" data-budget=\""+bs+"\" data-review=\""+rv+"\" data-img=\""+esc(img)+"\"><i class='fa fa-star'></i> Reviews</button>"+
+          "<button class='btn-action' onclick=\"shareRestaurant('"+ns+"')\"><i class='fa fa-share-alt'></i> Share</button>"+
+        "</div>"+
+      "</div></div>";
+  }
+
+  /* ── PAGINATION ── */
+  function buildPagination(total){
+    if(total<=1){ document.getElementById("pagination").innerHTML=""; return; }
+    var h = "<button class='page-btn' onclick='goPage("+(currentPage-1)+")' "+(currentPage<=1?"disabled":"")+">&lsaquo;</button>";
+    for(var i=1;i<=total;i++){
+      if(total>7 && i>2 && i<total-1 && Math.abs(i-currentPage)>1){ if(i===3||i===total-2) h+="<span style='color:var(--muted);padding:0 4px;line-height:38px'>…</span>"; continue; }
+      h+="<button class='page-btn"+(i===currentPage?" active":"")+"' onclick='goPage("+i+")'>"+i+"</button>";
+    }
+    h+="<button class='page-btn' onclick='goPage("+(currentPage+1)+")' "+(currentPage>=total?"disabled":"")+">&rsaquo;</button>";
+    document.getElementById("pagination").innerHTML = h;
+  }
+  function goPage(p){ currentPage=p; renderPage(); window.scrollTo({top:0,behavior:"smooth"}); }
+
+  /* ── FETCH ── */
+  function fetchData(params){
+    document.getElementById("result").innerHTML =
+      "<div class='skeleton-card'><div class='skel skel-img'></div><div class='skel-body'><div class='skel skel-title'></div><div class='skel skel-line' style='width:70%'></div><div class='skel skel-line' style='width:45%'></div></div></div>"+
+      "<div class='skeleton-card'><div class='skel skel-img'></div><div class='skel-body'><div class='skel skel-title'></div><div class='skel skel-line' style='width:60%'></div><div class='skel skel-line' style='width:50%'></div></div></div>";
+    document.getElementById("status").textContent = "Searching…";
+    fetch(PHP_URL + (params?"?"+params:""))
+      .then(function(r){ return r.text(); })
+	  .then(function(data){ console.log(data); return JSON.parse(data); })
+      .then(function(data){
+        if(data.error) throw new Error(data.error);
+        allData = data; currentPage = 1; renderPage();
+      })
+      .catch(function(err){
+        document.getElementById("result").innerHTML =
+          "<div class='no-result'><i class='fa fa-exclamation-triangle'></i><h3>Could not load restaurants</h3>"+
+          "<p style='margin-top:8px'>"+err.message+"</p>"+
+          "<p style='margin-top:8px'>Make sure XAMPP is running and visit via <strong>http://localhost/…</strong></p></div>";
+        document.getElementById("status").textContent = "Error.";
+      });
+  }
+
+  function doSearch(){
+    var p = new URLSearchParams();
+    var s=val("search"), f=val("food"), b=val("budget"), l=val("location");
+    if(s) p.append("search",s);
+    if(f) p.append("food",f);
+    if(b) p.append("budget",b);
+    if(l) p.append("location",l);
+    document.querySelectorAll(".pill").forEach(function(x){ x.classList.remove("active"); });
+    fetchData(p.toString());
+  }
+
+  function resetFilters(){
+    ["search","food","location"].forEach(function(id){ document.getElementById(id).value=""; });
+    document.getElementById("budget").value="";
+    var fo=document.getElementById('fav-only'); if(fo) fo.checked=false;
+    document.querySelectorAll(".pill").forEach(function(x){ x.classList.remove("active"); });
+    fetchData("");
+  }
+
+  function quickFilter(field, value){
+    document.getElementById(field).value = value;
+    document.querySelectorAll(".pill").forEach(function(x){ x.classList.remove("active"); });
+    event.target.classList.add("active");
+    doSearch();
+  }
+
+  /* ── DETAIL MODAL ── */
+  function openModal(img){
+    currentRestaurant = img.dataset.name;
+    selectedStar = 0;
+    document.getElementById("modal-name").textContent = img.dataset.name;
+    document.getElementById("modal-location").textContent = img.dataset.location;
+    document.getElementById("modal-food").textContent = img.dataset.food;
+    document.getElementById("modal-rating").textContent = img.dataset.rating;
+    document.getElementById("modal-budget").textContent = img.dataset.budget;
+    var desc = img.dataset.review || "";
+    var descEl = document.getElementById("modal-review");
+    descEl.textContent = desc;
+    descEl.style.display = desc ? "" : "none";
+    document.getElementById("modal-img").src = img.dataset.img || img.src;
+    document.getElementById("review-text").value = "";
+    // login state
+    var loggedIn = !!localStorage.getItem("hmu-username");
+    document.getElementById("review-form-wrap").style.display = loggedIn ? "" : "none";
+    document.getElementById("review-login-prompt").style.display = loggedIn ? "none" : "";
+    litStars(0);
+    switchTab("overview");
+    loadUserReviews(img.dataset.name);
+    document.getElementById("modal").classList.add("open");
+  }
+  function closeModal(){
+    document.getElementById("modal").classList.remove("open");
+  }
+  // open modal and jump straight to a specific tab
+  function openModalOnTab(el, tab){
+    openModal(el);
+    switchTab(tab);
+  }
+  document.getElementById("modal").addEventListener("click", function(e){ if(e.target===this) closeModal(); });
+
+  /* ── TABS ── */
+  function switchTab(tab){
+    ["overview","reviews"].forEach(function(t){
+      document.getElementById("tab-"+t).classList.toggle("active", t===tab);
+      document.getElementById("tab-content-"+t).classList.toggle("active", t===tab);
+    });
+  }
+
+  /* ── STAR PICKER ── */
+  document.querySelectorAll("#star-picker span").forEach(function(s){
+    s.addEventListener("mouseover", function(){ litStars(parseInt(this.dataset.v)); });
+    s.addEventListener("mouseout",  function(){ litStars(selectedStar); });
+    s.addEventListener("click",     function(){ selectedStar=parseInt(this.dataset.v); litStars(selectedStar); });
+  });
+  function litStars(v){
+    document.querySelectorAll("#star-picker span").forEach(function(s){
+      s.classList.toggle("lit", parseInt(s.dataset.v)<=v);
+    });
+  }
+
+  /* ── USER REVIEWS ── */
+  function rvKey(name){ return "hmu-rv-"+name; }
+  function loadUserReviews(name){
+    var box = document.getElementById("user-reviews");
+    var rvs = []; try{ rvs=JSON.parse(localStorage.getItem(rvKey(name))||"[]"); }catch(e){}
+    // update tab badge
+    document.getElementById("tab-review-count").textContent = rvs.length;
+    // update summary
+    if(rvs.length){
+      var avg = (rvs.reduce(function(a,r){ return a+r.stars; },0)/rvs.length).toFixed(1);
+      document.getElementById("rh-score").textContent = avg;
+      var filled = Math.round(parseFloat(avg));
+      document.getElementById("rh-stars").textContent = "★".repeat(filled)+"☆".repeat(5-filled);
+      document.getElementById("rh-count").textContent = rvs.length + " review" + (rvs.length>1?"s":"");
+    } else {
+      document.getElementById("rh-score").textContent = "—";
+      document.getElementById("rh-stars").textContent = "☆☆☆☆☆";
+      document.getElementById("rh-count").textContent = "No reviews yet";
+    }
+    if(!rvs.length){
+      box.innerHTML = "<div class='ur-empty'>No reviews yet — be the first to share your experience!</div>";
+      return;
+    }
+    box.innerHTML = rvs.map(function(rv){
+      return "<div class='ur-item'>"+
+        "<div class='ur-top'>"+
+          "<span class='ur-name'>"+esc(rv.user)+"</span>"+
+          "<span class='ur-stars'>"+"★".repeat(rv.stars)+"☆".repeat(5-rv.stars)+"</span>"+
+        "</div>"+
+        "<div class='ur-text'>"+esc(rv.text)+"</div>"+
+        (rv.date?"<div class='ur-date'>"+rv.date+"</div>":"")+
+      "</div>";
+    }).join("");
+  }
+  function submitReview(){
+    if(!selectedStar){ showToast("⚠️ Please select a star rating"); return; }
+    var text = document.getElementById("review-text").value.trim();
+    if(!text){ showToast("⚠️ Please write something"); return; }
+    var user = localStorage.getItem("hmu-username") || "Guest";
+    var rvs=[]; try{ rvs=JSON.parse(localStorage.getItem(rvKey(currentRestaurant))||"[]"); }catch(e){}
+    var now = new Date();
+    var dateStr = now.toLocaleDateString("en-SG",{day:"numeric",month:"short",year:"numeric"});
+    rvs.unshift({user:user, stars:selectedStar, text:text, date:dateStr});
+    localStorage.setItem(rvKey(currentRestaurant), JSON.stringify(rvs));
+    document.getElementById("review-text").value="";
+    selectedStar=0; litStars(0);
+    loadUserReviews(currentRestaurant);
+    showToast("✅ Review posted!");
+  }
+
+  /* ── SHARE ── */
+  function shareRestaurant(name){
+    var url = location.href.split("?")[0]+"?search="+encodeURIComponent(name);
+    if(navigator.share){ navigator.share({title:"Check out "+name,url:url}).catch(function(){}); }
+    else { navigator.clipboard.writeText(url).then(function(){ showToast("🔗 Link copied!"); }); }
+  }
+
+  /* ── TOAST ── */
+  function showToast(msg){
+    var t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show");
+    setTimeout(function(){ t.classList.remove("show"); }, 2800);
+  }
+
+  /* ── UTILS ── */
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;"); }
+  function val(id){ return document.getElementById(id).value.trim(); }
+
+  /* ── NAV LOGIN STATE handled in DOMContentLoaded below ── */
+
+  /* ── MOBILE MENU ── */
+  function toggleMenu(){
+    document.getElementById("hamburger").classList.toggle("open");
+    document.getElementById("mobile-menu").classList.toggle("open");
+  }
+
+  /* ── KEYBOARD ── */
+  document.querySelectorAll(".search-grid input,.search-grid select").forEach(function(inp){
+    inp.addEventListener("keydown", function(e){ if(e.key==="Enter") doSearch(); });
+  });
+
+  /* ── URL PARAMS (deep link) ── */
+  (function(){
+    var p = new URLSearchParams(location.search);
+    if(p.get("search")) document.getElementById("search").value = p.get("search");
+    if(p.get("food")) document.getElementById("food").value = p.get("food");
+    if(p.get("location")) document.getElementById("location").value = p.get("location");
+    if(p.get("budget")) document.getElementById("budget").value = p.get("budget");
+  })();
+
+  /* ── THEME ── */
+  function toggleTheme(){
+    var cur=document.documentElement.getAttribute("data-theme")||"dark";
+    var next=cur==="dark"?"light":"dark";
+    document.documentElement.setAttribute("data-theme",next);
+    localStorage.setItem("darling-theme",next);
+    document.getElementById("theme-btn").textContent=next==="dark"?"☀️":"🌙";
+  }
+  (function(){
+    var t=localStorage.getItem("darling-theme")||"dark";
+    document.documentElement.setAttribute("data-theme",t);
+    var b=document.getElementById("theme-btn");
+    if(b) b.textContent=t==="dark"?"☀️":"🌙";
+  })();
+
+  /* ── INIT: single entry point, runs everything after DOM is ready ── */
+  window.addEventListener('DOMContentLoaded', function(){
+
+    // 1. Update nav login state
+    var u = localStorage.getItem("hmu-username");
+    var loginBtn       = document.getElementById("nav-login-btn");
+    var userBtn        = document.getElementById("nav-user-btn");
+    var usernameEl     = document.getElementById("nav-username");
+    var avatarEl       = document.getElementById("nav-avatar");
+    var mobileLoginLink = document.getElementById("mobile-login-link");
+
+    if(u){
+      if(loginBtn)       loginBtn.style.display  = "none";
+      if(userBtn){       userBtn.style.display   = "flex"; }
+      if(usernameEl)     usernameEl.textContent   = u;
+      if(avatarEl)       avatarEl.textContent      = u.charAt(0).toUpperCase();
+      if(mobileLoginLink) mobileLoginLink.textContent = "👤 " + u + " (Profile)";
+      // Show Favourites nav links only when logged in
+      var favItem = document.getElementById("nav-fav-item");
+      var mobileFav = document.getElementById("mobile-fav-link");
+      if(favItem) favItem.style.display = "";
+      if(mobileFav) mobileFav.style.display = "";
+      // Show favourites filter, hide lock
+      var favWrap = document.getElementById("fav-filter-wrap");
+      var favLocked = document.getElementById("fav-filter-locked");
+      if(favWrap) favWrap.style.display = "flex";
+      if(favLocked) favLocked.style.display = "none";
+      // Wire nav-user-btn click to logout (clear favs) then redirect
+      if(userBtn){
+        userBtn.onclick = function(){
+          if(confirm("Log out? Your saved favourites will not be available until you log in again.")){            localStorage.removeItem("hmu-username");
+            localStorage.removeItem("hmu-email");
+            localStorage.removeItem("hmu-favs");
+            window.location = "Login.html";
+          }
+        };
+      }
+    } else {
+      // Logged out: show lock hint, hide fav filter
+      var favWrap = document.getElementById("fav-filter-wrap");
+      var favLocked = document.getElementById("fav-filter-locked");
+      if(favWrap) favWrap.style.display = "none";
+      if(favLocked) favLocked.style.display = "flex";
+    }
+
+    // 2. Load restaurants (read URL params for deep links)
+    var p = new URLSearchParams(location.search);
+    var q = new URLSearchParams();
+    if(p.get("search"))   { document.getElementById("search").value   = p.get("search");   q.append("search",   p.get("search")); }
+    if(p.get("food"))     { document.getElementById("food").value     = p.get("food");     q.append("food",     p.get("food")); }
+    if(p.get("location")) { document.getElementById("location").value = p.get("location"); q.append("location", p.get("location")); }
+    if(p.get("budget"))   { document.getElementById("budget").value   = p.get("budget");   q.append("budget",   p.get("budget")); }
+    fetchData(q.toString());
+
+
+  });
+
+</script>
+
+<!-- LOGIN PROMPT MODAL -->
+<div class="modal-overlay" id="login-prompt-modal">
+  <div class="modal" style="max-width:420px;text-align:center;padding:48px 40px">
+    <button class="modal-close" onclick="closeLoginPrompt()"><i class="fa fa-times"></i></button>
+    <div style="font-size:2.8rem;margin-bottom:16px">🔒</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:12px">Login Required</h2>
+    <p style="color:var(--muted);font-size:.92rem;line-height:1.7;margin-bottom:28px">
+      You need to be logged in to save favourites.<br>Sign in or create a free account to get started.
+    </p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="Login.html" style="background:var(--accent);color:#000;padding:12px 28px;border-radius:50px;font-weight:700;font-size:.9rem;text-decoration:none;display:inline-flex;align-items:center;gap:8px">
+        <i class="fa fa-user"></i> Login / Register
+      </a>
+      <button onclick="closeLoginPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:12px 24px;border-radius:50px;font-size:.9rem;cursor:pointer;font-family:inherit">
+        Maybe Later
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* login prompt — runs AFTER modal HTML exists in DOM */
+  function showLoginPrompt(){
+    document.getElementById("login-prompt-modal").classList.add("open");
+  }
+  function closeLoginPrompt(){
+    document.getElementById("login-prompt-modal").classList.remove("open");
+  }
+  document.getElementById("login-prompt-modal").addEventListener("click", function(e){
+    if(e.target === this) closeLoginPrompt();
+  });
+</script>
+</body>
+</html>

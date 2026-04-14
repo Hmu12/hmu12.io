@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Login — Hmu</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script>(function(){var t=localStorage.getItem("darling-theme")||"dark";document.documentElement.setAttribute("data-theme",t);})()</script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0d0d0d;--surface:#161616;--surface2:#1e1e1e;--border:#2a2a2a;--accent:#c9922a;--accent2:#e8b84b;--text:#f0ede8;--muted:#8a8075;--nav-h:72px;}
+    [data-theme="light"]{--bg:#faf8f4;--surface:#ffffff;--surface2:#f2ede6;--border:#e0d8cc;--accent:#b07d1e;--accent2:#c9922a;--text:#1a1208;--muted:#7a6a55;}
+    [data-theme="light"] nav{background:rgba(250,248,244,0.95)!important;}
+    [data-theme="light"] .btn-submit{color:#fff!important;}
+    .theme-toggle{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--surface2);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;transition:border-color .2s,transform .35s,background .3s;flex-shrink:0}
+    .theme-toggle:hover{border-color:var(--accent);transform:rotate(25deg)}
+    body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}
+    nav{height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 48px;border-bottom:1px solid var(--border);background:rgba(13,13,13,0.95);backdrop-filter:blur(12px);transition:background .3s,border-color .3s}
+    .nav-brand{font-family:"Playfair Display",serif;font-size:1.25rem;font-weight:700;display:flex;align-items:center;gap:10px}
+    .nav-brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block}
+    .nav-links{display:flex;align-items:center;gap:8px;list-style:none}
+    .nav-links a{padding:6px 18px;border-radius:30px;font-size:.875rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;transition:background .2s,color .2s;color:var(--muted)}
+    .nav-links a:hover{background:var(--surface2);color:var(--text)}
+    .nav-actions{display:flex;align-items:center;gap:12px}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;border:1px solid var(--border);border-radius:8px;background:var(--surface2)}
+    .hamburger span{display:block;width:20px;height:2px;background:var(--text);transition:all .3s}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .mobile-menu{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);z-index:999;padding:20px 24px;flex-direction:column;gap:8px}
+    .mobile-menu.open{display:flex}
+    .mobile-menu a{padding:12px 16px;border-radius:10px;font-size:.9rem;font-weight:500;color:var(--muted);transition:background .2s,color .2s}
+    .mobile-menu a:hover{background:var(--surface2);color:var(--text)}
+    main{flex:1;display:flex;align-items:center;justify-content:center;padding:60px 24px;position:relative;overflow:hidden}
+    main::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(201,146,42,.06) 0%,transparent 70%);pointer-events:none}
+    .login-wrap{width:100%;max-width:440px}
+    .login-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:48px 44px;transition:background .3s,border-color .3s}
+    .login-logo{font-family:"Playfair Display",serif;font-size:1.5rem;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:36px}
+    .login-logo .dot{width:10px;height:10px;border-radius:50%;background:var(--accent)}
+    .login-card h1{font-family:"Playfair Display",serif;font-size:1.9rem;font-weight:700;margin-bottom:8px}
+    .login-card .subtitle{color:var(--muted);font-size:.9rem;margin-bottom:36px;line-height:1.6}
+    .tabs{display:flex;gap:4px;background:var(--surface2);border-radius:10px;padding:4px;margin-bottom:32px}
+    .tab-btn{flex:1;padding:10px;background:transparent;border:none;border-radius:8px;color:var(--muted);font-family:inherit;font-size:.875rem;font-weight:500;cursor:pointer;transition:background .2s,color .2s}
+    .tab-btn.active{background:var(--surface);color:var(--text)}
+    .form-panel{display:none}
+    .form-panel.active{display:flex;flex-direction:column;gap:16px}
+    .field-group{display:flex;flex-direction:column;gap:8px}
+    .field-group label{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500}
+    .input-wrap{position:relative}
+    .input-wrap .fa{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.9rem;pointer-events:none}
+    .input-wrap input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 16px 13px 42px;color:var(--text);font-family:inherit;font-size:.9rem;outline:none;transition:border-color .2s,background .3s}
+    .input-wrap input::placeholder{color:var(--muted)}
+    .input-wrap input:focus{border-color:var(--accent)}
+    .btn-submit{width:100%;background:var(--accent);color:#000;border:none;padding:14px;border-radius:50px;font-weight:700;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;margin-top:8px;transition:background .2s,transform .2s;font-family:inherit}
+    .btn-submit:hover{background:var(--accent2);transform:translateY(-2px)}
+    [data-theme="light"] .btn-submit{color:#fff}
+    .terms{font-size:.78rem;color:var(--muted);text-align:center;line-height:1.6}
+    .terms a{color:var(--accent)}
+    .alert{padding:10px 16px;border-radius:8px;font-size:.85rem}
+    .alert-error{background:rgba(232,69,69,.1);border:1px solid rgba(232,69,69,.3);color:#e84545}
+    .alert-success{background:rgba(72,199,142,.1);border:1px solid rgba(72,199,142,.3);color:#48c78e}
+    /* logged-in profile */
+    .profile-panel{display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+    .avatar{width:80px;height:80px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;color:#000}
+    .profile-panel h2{font-family:"Playfair Display",serif;font-size:1.5rem}
+    .profile-panel p{color:var(--muted);font-size:.88rem}
+    .btn-outline{display:inline-flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);padding:10px 20px;border-radius:10px;font-size:.88rem;color:var(--text);transition:border-color .2s;cursor:pointer;font-family:inherit;width:100%;justify-content:center}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+    footer{border-top:1px solid var(--border);padding:24px 48px;display:flex;align-items:center;justify-content:center;transition:border-color .3s}
+    footer p{color:var(--muted);font-size:.8rem}
+    @media(max-width:600px){nav{padding:0 20px}footer{padding:20px}.login-card{padding:36px 28px}.nav-links{display:none}.hamburger{display:flex}}
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html"><span class="dot"></span> Restaurant Recommendation System</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Restaurants</a></li>
+    <li><a href="suggest.html">Suggest</a></li>
+    <li><a href="why.html">About Us</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()">☀️</button>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="shop.html">Restaurants</a>
+  <a href="why.html">About Us</a>
+</div>
+
+<main>
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo"><span class="dot"></span> Restaurant Recommendation System</div>
+
+      <!-- AUTH VIEW (logged out) -->
+      <div id="auth-view">
+        <h1>Welcome Back</h1>
+        <p class="subtitle">Sign in to save favourites and leave reviews.</p>
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('login',this)">Sign In</button>
+          <button class="tab-btn" onclick="switchTab('register',this)">Register</button>
+        </div>
+        <!-- LOGIN -->
+        <div class="form-panel active" id="panel-login">
+          <div id="login-alert"></div>
+          <div class="field-group"><label>Email Address</label><div class="input-wrap"><i class="fa fa-envelope"></i><input type="email" id="login-email" placeholder="you@example.com" /></div></div>
+          <div class="field-group"><label>Password</label><div class="input-wrap"><i class="fa fa-lock"></i><input type="password" id="login-pass" placeholder="••••••••" /></div></div>
+          <button class="btn-submit" onclick="handleLogin()">Sign In</button>
+        </div>
+        <!-- REGISTER -->
+        <div class="form-panel" id="panel-register">
+          <div id="reg-alert"></div>
+          <div class="field-group"><label>Full Name</label><div class="input-wrap"><i class="fa fa-user"></i><input type="text" id="reg-name" placeholder="Your name" /></div></div>
+          <div class="field-group"><label>Email Address</label><div class="input-wrap"><i class="fa fa-envelope"></i><input type="email" id="reg-email" placeholder="you@example.com" /></div></div>
+          <div class="field-group"><label>Password</label><div class="input-wrap"><i class="fa fa-lock"></i><input type="password" id="reg-pass" placeholder="Min 6 characters" /></div></div>
+          <button class="btn-submit" onclick="handleRegister()">Create Account</button>
+          <p class="terms">By registering you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+        </div>
+      </div>
+
+      <!-- PROFILE VIEW (logged in) -->
+      <div id="profile-view" style="display:none">
+        <div class="profile-panel">
+          <div class="avatar" id="profile-avatar">?</div>
+          <h2 id="profile-name"></h2>
+          <p id="profile-email"></p>
+          <a href="index.html" class="btn-outline" style="margin-top:4px">Continue to webpage</a>
+          <button class="btn-submit" style="margin-top:4px" onclick="handleLogout()">Sign Out</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer><p>&copy; <span id="yr"></span> Hmu Restaurant Recommendation. All Rights Reserved.</p></footer>
+
+<script>
+  document.getElementById("yr").textContent = new Date().getFullYear();
+
+  function switchTab(tab,btn){
+    document.querySelectorAll(".tab-btn").forEach(function(b){b.classList.remove("active")});
+    document.querySelectorAll(".form-panel").forEach(function(p){p.classList.remove("active")});
+    btn.classList.add("active");
+    document.getElementById("panel-"+tab).classList.add("active");
+  }
+
+  function getUsers(){ try{ return JSON.parse(localStorage.getItem("hmu-users")||"[]"); }catch(e){ return []; } }
+  function setUsers(arr){ localStorage.setItem("hmu-users",JSON.stringify(arr)); }
+
+  function handleRegister(){
+    var name=document.getElementById("reg-name").value.trim();
+    var email=document.getElementById("reg-email").value.trim().toLowerCase();
+    var pass=document.getElementById("reg-pass").value;
+    var al=document.getElementById("reg-alert");
+    if(!name||!email||!pass){ al.innerHTML="<div class='alert alert-error'>Please fill in all fields.</div>"; return; }
+    if(pass.length<6){ al.innerHTML="<div class='alert alert-error'>Password must be at least 6 characters.</div>"; return; }
+    var users=getUsers();
+    if(users.find(function(u){ return u.email===email; })){ al.innerHTML="<div class='alert alert-error'>An account with this email already exists.</div>"; return; }
+    users.push({name:name,email:email,pass:pass});
+    setUsers(users);
+    al.innerHTML="<div class='alert alert-success'>Account created! Signing you in…</div>";
+    setTimeout(function(){ loginUser(name,email); },800);
+  }
+
+  function handleLogin(){
+    var email=document.getElementById("login-email").value.trim().toLowerCase();
+    var pass=document.getElementById("login-pass").value;
+    var al=document.getElementById("login-alert");
+    if(!email||!pass){ al.innerHTML="<div class='alert alert-error'>Please fill in all fields.</div>"; return; }
+    var user=getUsers().find(function(u){ return u.email===email&&u.pass===pass; });
+    if(!user){ al.innerHTML="<div class='alert alert-error'>Incorrect email or password.</div>"; return; }
+    loginUser(user.name,user.email);
+  }
+
+  function loginUser(name,email){
+    localStorage.setItem("hmu-username",name);
+    localStorage.setItem("hmu-email",email);
+    showProfile(name,email);
+  }
+
+  function handleLogout(){
+    localStorage.removeItem("hmu-username");
+    localStorage.removeItem("hmu-email");
+    localStorage.removeItem("hmu-favs");
+    document.getElementById("profile-view").style.display="none";
+    document.getElementById("auth-view").style.display="";
+  }
+
+  function showProfile(name,email){
+    // Show Favourites nav links when logged in
+    var favItem = document.getElementById("nav-fav-item");
+    var mobileFav = document.getElementById("mobile-fav-link");
+    if(favItem) favItem.style.display = "";
+    if(mobileFav) mobileFav.style.display = "";
+    var sugItem = document.getElementById("nav-suggest-item");
+    var mobileSug = document.getElementById("mobile-suggest-link");
+    if(sugItem) sugItem.style.display = "";
+    if(mobileSug) mobileSug.style.display = "";
+    document.getElementById("auth-view").style.display="none";
+    document.getElementById("profile-view").style.display="";
+    document.getElementById("profile-name").textContent=name;
+    document.getElementById("profile-email").textContent=email;
+    document.getElementById("profile-avatar").textContent=name.charAt(0).toUpperCase();
+  }
+
+  // auto-show if already logged in
+  (function(){
+    var u=localStorage.getItem("hmu-username"), e=localStorage.getItem("hmu-email");
+    if(u) showProfile(u,e||"");
+  })();
+
+  // enter key
+  document.querySelectorAll("input").forEach(function(inp){
+    inp.addEventListener("keydown",function(e){
+      if(e.key!=="Enter") return;
+      var panel=inp.closest(".form-panel");
+      if(panel&&panel.id==="panel-login") handleLogin();
+      else if(panel&&panel.id==="panel-register") handleRegister();
+    });
+  });
+
+  function toggleMenu(){ document.getElementById("hamburger").classList.toggle("open"); document.getElementById("mobile-menu").classList.toggle("open"); }
+  function toggleTheme(){var c=document.documentElement.getAttribute("data-theme")||"dark";var n=c==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",n);localStorage.setItem("darling-theme",n);document.getElementById("theme-btn").textContent=n==="dark"?"☀️":"🌙";}
+  (function(){var t=localStorage.getItem("darling-theme")||"dark";document.documentElement.setAttribute("data-theme",t);var b=document.getElementById("theme-btn");if(b)b.textContent=t==="dark"?"☀️":"🌙";})();
+</script>
+</body>
+</html>

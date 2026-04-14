@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Restaurant Recommendation System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script>(function(){var t=localStorage.getItem("darling-theme")||"dark";document.documentElement.setAttribute("data-theme",t);})()</script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0d0d0d;--surface:#161616;--surface2:#1e1e1e;--border:#2a2a2a;--accent:#c9922a;--accent2:#e8b84b;--text:#f0ede8;--muted:#8a8075;--nav-h:72px;}
+    [data-theme="light"]{--bg:#faf8f4;--surface:#ffffff;--surface2:#f2ede6;--border:#e0d8cc;--accent:#b07d1e;--accent2:#c9922a;--text:#1a1208;--muted:#7a6a55;}
+    [data-theme="light"] nav{background:rgba(250,248,244,0.95)!important;}
+    [data-theme="light"] .btn-login,[data-theme="light"] .btn-primary-gold,[data-theme="light"] .contact-form button,[data-theme="light"] .newsletter-form button{color:#fff!important;}
+    html{scroll-behavior:smooth}
+    body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}
+    .theme-toggle{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--surface2);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;transition:border-color .2s,transform .35s,background .3s;flex-shrink:0}
+    .theme-toggle:hover{border-color:var(--accent);transform:rotate(25deg)}
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(13,13,13,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);transition:background .3s,border-color .3s}
+    .nav-brand{font-family:"Playfair Display",serif;font-size:1.25rem;font-weight:700;display:flex;align-items:center;gap:10px}
+    .nav-brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+    .nav-links{display:flex;align-items:center;gap:8px;list-style:none}
+    .nav-links a{padding:6px 18px;border-radius:30px;font-size:.875rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;transition:background .2s,color .2s;color:var(--muted)}
+    .nav-links a:hover,.nav-links a.active{background:var(--surface2);color:var(--text)}
+    .nav-actions{display:flex;align-items:center;gap:12px}
+    .btn-login{background:var(--accent);color:#000!important;padding:8px 20px;border-radius:30px;font-weight:600;font-size:.875rem;display:flex;align-items:center;gap:6px;transition:background .2s}
+    .btn-login:hover{background:var(--accent2)}
+    .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:calc(var(--nav-h) + 60px) 48px 80px;position:relative;overflow:hidden}
+    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 70% 50%,rgba(201,146,42,.08) 0%,transparent 70%);pointer-events:none}
+    .hero-tag{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:500;display:flex;align-items:center;gap:10px;margin-bottom:28px}
+    .hero-tag::before{content:"";width:40px;height:1px;background:var(--accent)}
+    .hero h1{font-family:"Playfair Display",serif;font-size:clamp(3rem,7vw,5.5rem);font-weight:900;line-height:1.05;max-width:700px;margin-bottom:28px}
+    .hero h1 em{font-style:italic;color:var(--accent)}
+    .hero p{color:var(--muted);font-size:1.05rem;line-height:1.8;max-width:540px;margin-bottom:44px}
+    .hero-btns{display:flex;gap:16px;flex-wrap:wrap}
+    .btn-primary-gold{display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:#000;padding:14px 32px;border-radius:50px;font-weight:700;font-size:.9rem;letter-spacing:.05em;text-transform:uppercase;transition:transform .2s,background .2s}
+    .btn-primary-gold:hover{background:var(--accent2);transform:translateY(-2px)}
+    .btn-outline-gold{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--border);color:var(--text);padding:14px 32px;border-radius:50px;font-weight:500;font-size:.9rem;transition:border-color .2s,color .2s,transform .2s}
+    .btn-outline-gold:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+    .hero-scroll{position:absolute;bottom:40px;left:48px;display:flex;align-items:center;gap:12px;color:var(--muted);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase}
+    .hero-scroll::after{content:"";display:block;width:60px;height:1px;background:var(--muted);animation:scroll-line 2s infinite}
+    @keyframes scroll-line{0%,100%{transform:scaleX(1);opacity:1}50%{transform:scaleX(.5);opacity:.4}}
+    .section-label{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:12px}
+    .section-title{font-family:"Playfair Display",serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;margin-bottom:12px}
+    .section-sub{color:var(--muted);font-size:.95rem;margin-bottom:48px}
+    .features{padding:100px 48px;background:var(--surface);transition:background .3s}
+    .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px;margin-top:60px}
+    .feature-card{padding:48px 36px;background:var(--surface2);transition:background .3s;position:relative;overflow:hidden}
+    .feature-card::before{content:"";position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--accent);transition:width .4s}
+    .feature-card:hover::before{width:100%}
+    .feature-icon{width:52px;height:52px;background:rgba(201,146,42,.1);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--accent);margin-bottom:24px}
+    .feature-card h3{font-family:"Playfair Display",serif;font-size:1.25rem;font-weight:600;margin-bottom:12px}
+    .feature-card p{color:var(--muted);font-size:.9rem;line-height:1.7}
+    .how{padding:100px 48px}
+    .how-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+    .how-steps{display:flex;flex-direction:column}
+    .step{display:flex;gap:28px;padding:32px 0;border-bottom:1px solid var(--border);transition:padding-left .3s;cursor:default}
+    .step:first-child{border-top:1px solid var(--border)}
+    .step:hover{padding-left:12px}
+    .step-num{font-family:"Playfair Display",serif;font-size:2rem;font-weight:900;color:var(--border);line-height:1;min-width:44px;transition:color .3s}
+    .step:hover .step-num{color:var(--accent)}
+    .step-content h4{font-family:"Playfair Display",serif;font-size:1.1rem;margin-bottom:8px}
+    .step-content p{color:var(--muted);font-size:.88rem;line-height:1.6}
+    .how-visual{background:var(--surface);border-radius:24px;padding:48px;border:1px solid var(--border);display:flex;flex-direction:column;gap:20px;transition:background .3s,border-color .3s}
+    .how-visual-title{font-family:"Playfair Display",serif;font-size:1.5rem;margin-bottom:8px;color:var(--accent)}
+    .tag-group{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+    .tag{padding:6px 16px;border-radius:20px;border:1px solid var(--border);font-size:.8rem;color:var(--muted);transition:border-color .2s,color .2s;cursor:pointer}
+    .tag:hover{border-color:var(--accent);color:var(--accent)}
+    .contact{padding:100px 48px;background:var(--surface);transition:background .3s}
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+    .contact-info p{color:var(--muted);line-height:1.8;margin-bottom:32px}
+    .contact-detail{display:flex;align-items:flex-start;gap:16px;margin-bottom:20px}
+    .contact-detail .icon{width:40px;height:40px;border-radius:10px;background:rgba(201,146,42,.1);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:.9rem;flex-shrink:0}
+    .contact-detail span{color:var(--muted);font-size:.9rem;line-height:1.6}
+    .contact-form{display:flex;flex-direction:column;gap:16px}
+    .contact-form input,.contact-form textarea{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--text);font-family:inherit;font-size:.9rem;outline:none;transition:border-color .2s,background .3s;width:100%}
+    .contact-form input::placeholder,.contact-form textarea::placeholder{color:var(--muted)}
+    .contact-form input:focus,.contact-form textarea:focus{border-color:var(--accent)}
+    .contact-form textarea{resize:vertical;min-height:120px}
+    .contact-form button{background:var(--accent);color:#000;border:none;padding:14px 36px;border-radius:50px;font-weight:700;font-size:.9rem;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;align-self:flex-start;transition:background .2s,transform .2s}
+    .contact-form button:hover{background:var(--accent2);transform:translateY(-2px)}
+    .map-section{height:380px}
+    .map-section iframe{width:100%;height:100%;border:0;display:block}
+    footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 48px 32px;transition:background .3s,border-color .3s}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:48px;margin-bottom:60px}
+    .footer-brand{font-family:"Playfair Display",serif;font-size:1.4rem;font-weight:700;margin-bottom:16px}
+    footer p,footer a{color:var(--muted);font-size:.875rem;line-height:1.8}
+    footer a:hover{color:var(--accent)}
+    .footer-heading{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:20px}
+    .footer-links{list-style:none;display:flex;flex-direction:column;gap:10px}
+    .social-links{display:flex;gap:12px;margin-top:20px}
+    .social-links a{width:38px;height:38px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.9rem;transition:border-color .2s,color .2s}
+    .social-links a:hover{border-color:var(--accent);color:var(--accent)}
+    .footer-bottom{border-top:1px solid var(--border);padding-top:28px;text-align:center;color:var(--muted);font-size:.8rem}
+    .newsletter-form{display:flex;gap:8px;margin-top:16px}
+    .newsletter-form input{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:inherit;font-size:.85rem;outline:none;transition:border-color .2s}
+    .newsletter-form input:focus{border-color:var(--accent)}
+    .newsletter-form input::placeholder{color:var(--muted)}
+    .newsletter-form button{background:var(--accent);color:#000;border:none;padding:10px 18px;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer;white-space:nowrap;transition:background .2s}
+    .newsletter-form button:hover{background:var(--accent2)}
+    @media(max-width:900px){nav{padding:0 24px}.hero{padding:calc(var(--nav-h)+40px) 24px 80px}.features,.how,.contact{padding:70px 24px}footer{padding:48px 24px 24px}.how-inner,.contact-grid{grid-template-columns:1fr;gap:40px}.footer-grid{grid-template-columns:1fr 1fr;gap:32px}.nav-links{display:none}}
+
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;border:1px solid var(--border);border-radius:8px;background:var(--surface2)}
+    .hamburger span{display:block;width:20px;height:2px;background:var(--text);transition:all .3s}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .mobile-menu{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);z-index:999;padding:20px 24px;flex-direction:column;gap:8px}
+    .mobile-menu.open{display:flex}
+    .mobile-menu a{padding:12px 16px;border-radius:10px;font-size:.9rem;font-weight:500;color:var(--muted);transition:background .2s,color .2s}
+    .mobile-menu a:hover,.mobile-menu a.active{background:var(--surface2);color:var(--text)}
+    @media(max-width:900px){.hamburger{display:flex}}
+
+    #nav-user-btn:hover{border-color:var(--accent) !important;}
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html"><span class="dot"></span> Restaurant Recommendation System</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="shop.html">Restaurants</a></li>
+    <li><a href="suggest.html">Suggest</a></li>
+    <li><a href="why.html">About Us</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="Login.html" class="btn-login" id="nav-login-btn"><i class="fa fa-user"></i> Login</a>
+    <div id="nav-user-btn" style="display:none;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px 16px;border-radius:30px;font-weight:600;font-size:.875rem;cursor:pointer;transition:border-color .2s" onclick="window.location='Login.html'">
+      <div id="nav-avatar" style="width:26px;height:26px;border-radius:50%;background:var(--accent);color:#000;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0">?</div>
+      <span id="nav-username"></span>
+    </div>
+    <span id="nav-username"></span>
+    </div>
+    <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark mode">☀️</button>
+    <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html" class="active">Home</a>
+  <a href="shop.html">Restaurants</a>
+  <a href="why.html">About Us</a>
+  <a href="Login.html" id="mobile-login-link">Login / Register</a>
+</div>
+
+<section class="hero">
+  <div class="hero-tag">Discover · Dine · Delight</div>
+  <h1>Find Your Next<br><em>Favourite</em> Restaurant</h1>
+  <p>We curate the best dining experiences across Singapore — from iconic hawker stalls and street-side kitchens to modern cafés and fine-dining restaurants. Explore a diverse food culture influenced by Chinese, Malay, Indian, and international cuisines. Easily search and discover restaurants by cuisine, budget, and location to find the perfect place to eat.</p>
+  <div class="hero-btns">
+    <a href="shop.html" class="btn-primary-gold"><i class="fa fa-search"></i> Explore Restaurants</a>
+    <a href="why.html" class="btn-outline-gold">About Us <i class="fa fa-arrow-right"></i></a>
+  </div>
+  <div class="hero-scroll">Scroll to discover</div>
+</section>
+
+<section class="features">
+  <div class="section-label">Why Choose Us</div>
+  <h2 class="section-title">A Smarter Way to Dine</h2>
+  <p class="section-sub">Everything you need to make the perfect restaurant choice, every time.</p>
+  <div class="features-grid">
+    <div class="feature-card"><div class="feature-icon"><i class="fa fa-map-marker"></i></div><h3>Search by Location</h3><p>Find restaurants near you in Chiang Mai, Bangkok, Phuket and more cities across Thailand.</p></div>
+    <div class="feature-card"><div class="feature-icon"><i class="fa fa-cutlery"></i></div><h3>Filter by Cuisine</h3><p>Thai, Chinese, Western, Indian — browse by food type and find exactly what your palate craves.</p></div>
+    <div class="feature-card"><div class="feature-icon"><i class="fa fa-dollar"></i></div><h3>Set Your Budget</h3><p>From affordable street food to premium fine dining — filter by budget symbols $, $$, or $$$.</p></div>
+    <div class="feature-card"><div class="feature-icon"><i class="fa fa-star"></i></div><h3>Real Reviews</h3><p>Honest ratings and user-submitted reviews to help you decide before you dine.</p></div>
+  </div>
+</section>
+
+<section class="how">
+  <div class="how-inner">
+    <div>
+      <div class="section-label">How It Works</div>
+      <h2 class="section-title">Three Steps to Your<br>Perfect Meal</h2>
+      <p class="section-sub">Our system makes it effortless to discover great places to eat.</p>
+      <div class="how-steps">
+        <div class="step"><div class="step-num">01</div><div class="step-content"><h4>Enter Your Preferences</h4><p>Type in a food category, budget level, or city. Mix and match all three filters.</p></div></div>
+        <div class="step"><div class="step-num">02</div><div class="step-content"><h4>Browse Matches Instantly</h4><p>Our system fetches live restaurant data and displays matching results with photos and ratings.</p></div></div>
+        <div class="step"><div class="step-num">03</div><div class="step-content"><h4>Pick and Go Dine</h4><p>Read the review, check the location, and head out confident you have made the right choice.</p></div></div>
+      </div>
+    </div>
+    <div class="how-visual">
+      <div class="how-visual-title">Popular Right Now</div>
+      <p style="color:var(--muted);font-size:.85rem">Browse trending cuisines our users love</p>
+      <div>
+        <p style="font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Cuisine</p>
+        <div class="tag-group"><span class="tag">🍜 Thai</span><span class="tag">🍝 Western</span><span class="tag">🍱 Japanese</span><span class="tag">🥘 Indian</span><span class="tag">🍲 Chinese</span><span class="tag">🌮 Mexican</span></div>
+      </div>
+      <div>
+        <p style="font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Cities</p>
+        <div class="tag-group"><span class="tag">📍 Orchard</span><span class="tag">📍 Marina Bay</span><span class="tag">📍 Tiong Bahru</span><span class="tag">📍 East Coast</span></div>
+      </div>
+      <a href="shop.html" class="btn-primary-gold" style="margin-top:8px">Start Searching <i class="fa fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<section class="contact">
+  <div class="section-label">Get In Touch</div>
+  <h2 class="section-title" style="margin-bottom:48px">Contact Us</h2>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <p>Have a restaurant you would like us to feature? A question about our recommendation system? We would love to hear from you.</p>
+      <div class="contact-detail"><div class="icon"><i class="fa fa-map-marker"></i></div><span> #04-19, kang ching ave, Kang Ching Street,<br>Singapore</span></div>
+      <div class="contact-detail"><div class="icon"><i class="fa fa-phone"></i></div><span>23540215</span></div>
+      <div class="contact-detail"><div class="icon"><i class="fa fa-envelope"></i></div><span>sakura@gmail.com</span></div>
+    </div>
+    <form class="contact-form" onsubmit="return false">
+      <input type="text" placeholder="Your Name" />
+      <input type="email" placeholder="Email Address" />
+      <input type="tel" placeholder="Phone Number" />
+      <textarea placeholder="Your Message"></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Hmu</div>
+      <p>Connecting food lovers with the best dining experiences across Thailand. Curated with care, served with passion.</p>
+      <div class="social-links">
+        <a href="#"><i class="fa fa-facebook"></i></a>
+        <a href="#"><i class="fa fa-twitter"></i></a>
+        <a href="#"><i class="fa fa-instagram"></i></a>
+        <a href="#"><i class="fa fa-youtube"></i></a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-heading">Quick Links</div>
+      <ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="shop.html">Restaurants</a></li><li><a href="why.html">About Us</a></li><li><a href="Login.html">Login</a></li></ul>
+    </div>
+    <div>
+      <div class="footer-heading">Explore</div>
+      <ul class="footer-links"><li><a href="shop.html">Thai Food</a></li><li><a href="shop.html">Fine Dining</a></li><li><a href="shop.html">Budget Picks</a></li><li><a href="shop.html">Chiang Mai</a></li></ul>
+    </div>
+    <div>
+      <div class="footer-heading">Newsletter</div>
+      <p>Get the latest restaurant recommendations delivered to your inbox.</p>
+      <div class="newsletter-form"><input type="email" placeholder="Your email" /><button>Go</button></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>&copy; <span id="yr"></span> Hmu Restaurant Recommendation. All Rights Reserved.</p></div>
+</footer>
+
+<script>
+  document.getElementById("yr").textContent = new Date().getFullYear();
+  function toggleTheme() {
+    var cur = document.documentElement.getAttribute("data-theme") || "dark";
+    var next = cur === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("darling-theme", next);
+    document.getElementById("theme-btn").textContent = next === "dark" ? "☀️" : "🌙";
+  }
+  (function(){
+    var t = localStorage.getItem("darling-theme") || "dark";
+    document.documentElement.setAttribute("data-theme", t);
+    var b = document.getElementById("theme-btn");
+    if(b) b.textContent = t === "dark" ? "☀️" : "🌙";
+  })();
+  function toggleMobileMenu(){
+    document.getElementById('hamburger').classList.toggle('open');
+    document.getElementById('mobile-menu').classList.toggle('open');
+  }
+
+  // ── NAV LOGIN STATE ──
+  window.addEventListener('DOMContentLoaded', function(){
+    var u = localStorage.getItem("hmu-username");
+    var loginBtn        = document.getElementById("nav-login-btn");
+    var userBtn         = document.getElementById("nav-user-btn");
+    var usernameEl      = document.getElementById("nav-username");
+    var avatarEl        = document.getElementById("nav-avatar");
+    var mobileLoginLink = document.getElementById("mobile-login-link");
+    if(u){
+      if(loginBtn)        loginBtn.style.display    = "none";
+      if(userBtn)         userBtn.style.display     = "flex";
+      if(usernameEl)      usernameEl.textContent     = u;
+      if(avatarEl)        avatarEl.textContent        = u.charAt(0).toUpperCase();
+      if(mobileLoginLink) mobileLoginLink.textContent = "👤 " + u + " (Profile)";
+      // Show Favourites nav links only when logged in
+      var favItem = document.getElementById("nav-fav-item");
+      var mobileFav = document.getElementById("mobile-fav-link");
+      if(favItem) favItem.style.display = "";
+      if(mobileFav) mobileFav.style.display = "";
+    }
+  });
+</script>
+</body>
+</html>

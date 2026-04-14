@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Suggest a Restaurant — Hmu</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script>(function(){var t=localStorage.getItem("darling-theme")||"dark";document.documentElement.setAttribute("data-theme",t);})()</script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0d0d0d;--surface:#161616;--surface2:#1e1e1e;--border:#2a2a2a;--accent:#c9922a;--accent2:#e8b84b;--text:#f0ede8;--muted:#8a8075;--nav-h:72px;}
+    [data-theme="light"]{--bg:#faf8f4;--surface:#ffffff;--surface2:#f2ede6;--border:#e0d8cc;--accent:#b07d1e;--accent2:#c9922a;--text:#1a1208;--muted:#7a6a55;}
+    [data-theme="light"] nav{background:rgba(250,248,244,0.95)!important;}
+    [data-theme="light"] .btn-login,[data-theme="light"] .btn-primary-gold{color:#fff!important;}
+    .theme-toggle{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--surface2);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;transition:border-color .2s,transform .35s,background .3s;flex-shrink:0}
+    .theme-toggle:hover{border-color:var(--accent);transform:rotate(25deg)}
+    body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(13,13,13,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);transition:background .3s,border-color .3s}
+    .nav-brand{font-family:"Playfair Display",serif;font-size:1.25rem;font-weight:700;display:flex;align-items:center;gap:10px}
+    .nav-brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block}
+    .nav-links{display:flex;align-items:center;gap:8px;list-style:none}
+    .nav-links a{padding:6px 18px;border-radius:30px;font-size:.875rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;transition:background .2s,color .2s;color:var(--muted)}
+    .nav-links a:hover,.nav-links a.active{background:var(--surface2);color:var(--text)}
+    .nav-actions{display:flex;align-items:center;gap:12px}
+    .btn-login{background:var(--accent);color:#000!important;padding:8px 20px;border-radius:30px;font-weight:600;font-size:.875rem;display:flex;align-items:center;gap:6px;transition:background .2s}
+    .btn-login:hover{background:var(--accent2)}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;border:1px solid var(--border);border-radius:8px;background:var(--surface2)}
+    .hamburger span{display:block;width:20px;height:2px;background:var(--text);transition:all .3s}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .mobile-menu{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);z-index:999;padding:20px 24px;flex-direction:column;gap:8px}
+    .mobile-menu.open{display:flex}
+    .mobile-menu a{padding:12px 16px;border-radius:10px;font-size:.9rem;font-weight:500;color:var(--muted);transition:background .2s,color .2s}
+    .mobile-menu a:hover,.mobile-menu a.active{background:var(--surface2);color:var(--text)}
+
+    /* PAGE HEADER */
+    .page-header{padding:calc(var(--nav-h) + 60px) 48px 50px;border-bottom:1px solid var(--border)}
+    .page-header .label{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:12px}
+    .page-header h1{font-family:"Playfair Display",serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:700}
+    .page-header p{color:var(--muted);font-size:1rem;margin-top:14px;max-width:560px;line-height:1.7}
+
+    /* MAIN CONTENT */
+    .page-body{padding:60px 48px 80px;display:flex;justify-content:center}
+    .suggest-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:48px;width:100%;max-width:620px}
+    .suggest-card h2{font-family:"Playfair Display",serif;font-size:1.5rem;margin-bottom:6px}
+    .suggest-card .sub{color:var(--muted);font-size:.88rem;line-height:1.6;margin-bottom:28px}
+
+    /* LOCKED STATE */
+    .locked-state{text-align:center;padding:20px 0 8px}
+    .locked-state .lock-icon{font-size:3rem;margin-bottom:16px}
+    .locked-state h3{font-family:"Playfair Display",serif;font-size:1.4rem;margin-bottom:10px}
+    .locked-state p{color:var(--muted);font-size:.9rem;line-height:1.7;margin-bottom:28px;max-width:380px;margin-left:auto;margin-right:auto}
+    .btn-go-login{background:var(--accent);color:#000;padding:13px 32px;border-radius:50px;font-weight:700;font-size:.95rem;display:inline-flex;align-items:center;gap:8px;transition:background .2s}
+    .btn-go-login:hover{background:var(--accent2)}
+
+    /* FORM */
+    .form-col{display:flex;flex-direction:column;gap:18px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .field-group label{display:block;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;font-weight:500}
+    .field-group input,.field-group select,.field-group textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text);font-family:inherit;font-size:.9rem;outline:none;transition:border-color .2s,background .3s;appearance:none}
+    .field-group input::placeholder,.field-group textarea::placeholder{color:var(--muted)}
+    .field-group input:focus,.field-group select:focus,.field-group textarea:focus{border-color:var(--accent)}
+    .field-group select option{background:var(--surface2);color:var(--text)}
+    .field-group textarea{min-height:90px;resize:vertical}
+    .required{color:#e84545}
+    .hint{font-size:.75rem;color:var(--muted);margin-top:6px}
+
+    /* IMAGE UPLOAD */
+    .img-upload-wrap{width:100%;height:180px;background:var(--surface2);border:2px dashed var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;transition:border-color .2s,background .2s}
+    .img-upload-wrap:hover{border-color:var(--accent);background:var(--surface)}
+    .img-upload-placeholder{display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--muted);font-size:.88rem;pointer-events:none}
+    .img-upload-wrap.has-img{border-style:solid;border-color:var(--accent)}
+    .btn-submit{background:var(--accent);color:#000;border:none;padding:14px;border-radius:10px;font-weight:700;font-size:.95rem;cursor:pointer;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s,transform .2s;font-family:inherit;margin-top:6px}
+    .btn-submit:hover{background:var(--accent2);transform:translateY(-1px)}
+    .btn-submit:disabled{opacity:.5;cursor:not-allowed;transform:none}
+    .alert{padding:12px 16px;border-radius:8px;font-size:.87rem;margin-bottom:4px}
+    .alert-error{background:rgba(232,69,69,.1);border:1px solid rgba(232,69,69,.3);color:#e84545}
+    .alert-success{background:rgba(42,181,106,.1);border:1px solid rgba(42,181,106,.3);color:#2ab56a}
+
+    /* TOAST */
+    .toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 24px;font-size:.875rem;color:var(--text);z-index:3000;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;white-space:nowrap}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+    footer{background:var(--surface);border-top:1px solid var(--border);padding:40px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;transition:background .3s,border-color .3s}
+    footer p{color:var(--muted);font-size:.85rem}
+    .social-links{display:flex;gap:12px}
+    .social-links a{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:border-color .2s,color .2s}
+    .social-links a:hover{border-color:var(--accent);color:var(--accent)}
+
+    @media(max-width:900px){
+      nav{padding:0 24px}
+      .nav-links{display:none}
+      .hamburger{display:flex}
+      .page-header,.page-body{padding-left:24px;padding-right:24px}
+      .form-row{grid-template-columns:1fr}
+      footer{padding:32px 24px}
+    }
+    #nav-user-btn:hover{border-color:var(--accent)!important}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="index.html"><span class="dot"></span>Restaurant Recommendation System</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Restaurants</a></li>
+    <li><a href="suggest.html" class="active">Suggest</a></li>
+    <li><a href="why.html">About Us</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="Login.html" class="btn-login" id="nav-login-btn"><i class="fa fa-user"></i> Login</a>
+    <div id="nav-user-btn" style="display:none;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px 16px;border-radius:30px;font-weight:600;font-size:.875rem;cursor:pointer;transition:border-color .2s" onclick="window.location='Login.html'">
+      <div id="nav-avatar" style="width:26px;height:26px;border-radius:50%;background:var(--accent);color:#000;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0">?</div>
+      <span id="nav-username"></span>
+    </div>
+    <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark mode">☀️</button>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="shop.html">Restaurants</a>
+  <a href="suggest.html" class="active">Suggest</a>
+  <a href="why.html">About Us</a>
+  <a href="Login.html" id="mobile-login-link">Login / Register</a>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="label">Community</div>
+  <h1>Suggest a Restaurant</h1>
+  <p>Know a hidden gem? Submit it to our directory and share it with the community.</p>
+</div>
+
+<!-- BODY -->
+<div class="page-body">
+  <div class="suggest-card">
+
+    <!-- LOCKED: shown when NOT logged in -->
+    <div id="locked-view" class="locked-state" style="display:none">
+      <div class="lock-icon">🔒</div>
+      <h3>Login Required</h3>
+      <p>You need to be logged in to suggest a restaurant. Sign in or create a free account to get started.</p>
+      <a href="Login.html" class="btn-go-login"><i class="fa fa-user"></i> Login / Register</a>
+    </div>
+
+    <!-- FORM: shown when logged in -->
+    <div id="form-view" style="display:none">
+      <h2>Submit a Restaurant</h2>
+      <p class="sub">Duplicates with the same name and location will not be accepted.</p>
+      <div id="suggest-alert"></div>
+      <div class="form-col">
+        <div class="field-group">
+          <label>Restaurant Name <span class="required">*</span></label>
+          <input type="text" id="sub-name" placeholder="e.g. Dempsey Sushi Omakase" />
+        </div>
+        <div class="form-row">
+          <div class="field-group">
+            <label>Cuisine Type <span class="required">*</span></label>
+            <input type="text" id="sub-food" placeholder="e.g. Japanese, Western" />
+          </div>
+          <div class="field-group">
+            <label>Location <span class="required">*</span></label>
+            <input type="text" id="sub-location" placeholder="e.g. Orchard, Marina Bay" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field-group">
+            <label>Budget <span class="required">*</span></label>
+            <select id="sub-budget">
+              <option value="">Select Budget</option>
+              <option value="$">$ — Budget</option>
+              <option value="$$">$$ — Mid-range</option>
+              <option value="$$$">$$$ — Premium</option>
+              <option value="$$$$">$$$$ — Fine Dining</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label>Rating (1.0 – 5.0) <span class="required">*</span></label>
+            <input type="number" id="sub-rating" placeholder="e.g. 4.5" min="1" max="5" step="0.1" />
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Review</label>
+          <textarea id="sub-review" placeholder="Describe the restaurant — food quality, atmosphere, service…"></textarea>
+        </div>
+        <div class="field-group">
+          <label>Restaurant Photo <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+          <div class="img-upload-wrap" id="img-upload-wrap" onclick="document.getElementById('sub-image-file').click()">
+            <div class="img-upload-placeholder" id="img-placeholder">
+              <i class="fa fa-camera" style="font-size:1.8rem;color:var(--muted);margin-bottom:8px"></i>
+              <span>Tap to upload a photo from your device</span>
+            </div>
+            <img id="img-preview" src="" alt="Preview" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:10px" />
+          </div>
+          <input type="file" id="sub-image-file" accept="image/*" style="display:none" onchange="handleImageUpload(this)" />
+          <p class="hint" id="img-hint">JPG, PNG or WEBP · max 5 MB</p>
+        </div>
+        <button class="btn-submit" id="suggest-submit-btn" onclick="submitSuggestion()">
+          <i class="fa fa-plus"></i> Submit Restaurant
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<footer>
+  <p>&copy; <span id="yr"></span> Hmu Restaurant Recommendation. All Rights Reserved.</p>
+  <div class="social-links">
+    <a href="#"><i class="fa fa-facebook"></i></a>
+    <a href="#"><i class="fa fa-twitter"></i></a>
+    <a href="#"><i class="fa fa-instagram"></i></a>
+    <a href="#"><i class="fa fa-youtube"></i></a>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("yr").textContent = new Date().getFullYear();
+
+  /* ── THEME ── */
+  function toggleTheme(){
+    var cur = document.documentElement.getAttribute("data-theme") || "dark";
+    var next = cur === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("darling-theme", next);
+    document.getElementById("theme-btn").textContent = next === "dark" ? "☀️" : "🌙";
+  }
+  (function(){
+    var t = localStorage.getItem("darling-theme") || "dark";
+    document.documentElement.setAttribute("data-theme", t);
+    var b = document.getElementById("theme-btn");
+    if(b) b.textContent = t === "dark" ? "☀️" : "🌙";
+  })();
+
+  /* ── MOBILE MENU ── */
+  function toggleMenu(){
+    document.getElementById("hamburger").classList.toggle("open");
+    document.getElementById("mobile-menu").classList.toggle("open");
+  }
+
+  /* ── NAV + VIEW STATE ── */
+  window.addEventListener("DOMContentLoaded", function(){
+    var u = localStorage.getItem("hmu-username");
+    var loginBtn  = document.getElementById("nav-login-btn");
+    var userBtn   = document.getElementById("nav-user-btn");
+    var mobileLoginLink = document.getElementById("mobile-login-link");
+
+    if(u){
+      if(loginBtn) loginBtn.style.display = "none";
+      if(userBtn){  userBtn.style.display = "flex"; }
+      document.getElementById("nav-username").textContent = u;
+      document.getElementById("nav-avatar").textContent = u.charAt(0).toUpperCase();
+      if(mobileLoginLink) mobileLoginLink.textContent = "👤 " + u + " (Profile)";
+      var favItem = document.getElementById("nav-fav-item");
+      var mobileFav = document.getElementById("mobile-fav-link");
+      if(favItem) favItem.style.display = "";
+      if(mobileFav) mobileFav.style.display = "";
+
+      // Show form
+      document.getElementById("form-view").style.display = "";
+    } else {
+      // Show locked state
+      document.getElementById("locked-view").style.display = "";
+    }
+  });
+
+  /* ── SUBMIT ── */
+  function submitSuggestion(){
+    var alertBox = document.getElementById("suggest-alert");
+    var btn      = document.getElementById("suggest-submit-btn");
+    var name     = document.getElementById("sub-name").value.trim();
+    var food     = document.getElementById("sub-food").value.trim();
+    var location = document.getElementById("sub-location").value.trim();
+    var budget   = document.getElementById("sub-budget").value;
+    var rating   = document.getElementById("sub-rating").value.trim();
+    var review   = document.getElementById("sub-review").value.trim();
+    var image    = window._uploadedImageB64 || "";
+
+    alertBox.innerHTML = "";
+
+    if(!name || !food || !location || !budget || !rating){
+      alertBox.innerHTML = "<div class='alert alert-error'>Please fill in all required fields.</div>";
+      return;
+    }
+    var r = parseFloat(rating);
+    if(isNaN(r) || r < 1 || r > 5){
+      alertBox.innerHTML = "<div class='alert alert-error'>Rating must be between 1.0 and 5.0.</div>";
+      return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = "<i class='fa fa-spinner fa-spin'></i> Submitting…";
+
+    var formData = new FormData();
+    formData.append("name",     name);
+    formData.append("food",     food);
+    formData.append("location", location);
+    formData.append("budget",   budget);
+    formData.append("rating",   rating);
+    formData.append("review",   review);
+    formData.append("image",    image);
+
+    fetch("add_restaurant.php", { method: "POST", body: formData })
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        btn.disabled = false;
+        btn.innerHTML = "<i class='fa fa-plus'></i> Submit Restaurant";
+        if(data.success){
+          ["sub-name","sub-food","sub-location","sub-review","sub-rating"].forEach(function(id){
+            document.getElementById(id).value = "";
+          });
+          document.getElementById("sub-budget").value = "";
+          window._uploadedImageB64 = "";
+          document.getElementById("img-preview").style.display = "none";
+          document.getElementById("img-placeholder").style.display = "flex";
+          document.getElementById("img-upload-wrap").classList.remove("has-img");
+          document.getElementById("sub-image-file").value = "";
+          alertBox.innerHTML = "<div class='alert alert-success'>✅ Restaurant submitted successfully! It will appear in the directory shortly.</div>";
+          showToast("✅ Restaurant added!");
+        } else {
+          alertBox.innerHTML = "<div class='alert alert-error'>" + (data.error || "Failed to submit.") + "</div>";
+        }
+      })
+      .catch(function(){
+        btn.disabled = false;
+        btn.innerHTML = "<i class='fa fa-plus'></i> Submit Restaurant";
+        alertBox.innerHTML = "<div class='alert alert-error'>Network error. Make sure XAMPP is running.</div>";
+      });
+  }
+
+  /* ── ENTER KEY ── */
+  document.querySelectorAll("input").forEach(function(inp){
+    inp.addEventListener("keydown", function(e){ if(e.key === "Enter") submitSuggestion(); });
+  });
+
+  /* ── IMAGE UPLOAD ── */
+  window._uploadedImageB64 = "";
+  function handleImageUpload(input){
+    var file = input.files[0];
+    if(!file) return;
+    if(file.size > 5 * 1024 * 1024){
+      showToast("⚠️ Image must be under 5 MB");
+      input.value = "";
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e){
+      window._uploadedImageB64 = e.target.result; // full base64 data URL
+      var preview = document.getElementById("img-preview");
+      var placeholder = document.getElementById("img-placeholder");
+      var wrap = document.getElementById("img-upload-wrap");
+      preview.src = e.target.result;
+      preview.style.display = "block";
+      placeholder.style.display = "none";
+      wrap.classList.add("has-img");
+      document.getElementById("img-hint").textContent = file.name + " · " + (file.size/1024).toFixed(0) + " KB";
+    };
+    reader.readAsDataURL(file);
+  }
+
+  /* ── TOAST ── */
+  function showToast(msg){
+    var t = document.getElementById("toast");
+    t.textContent = msg; t.classList.add("show");
+    setTimeout(function(){ t.classList.remove("show"); }, 2800);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>About Us </title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script>(function(){var t=localStorage.getItem("darling-theme")||"dark";document.documentElement.setAttribute("data-theme",t);})()</script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    
+    :root{--bg:#0d0d0d;--surface:#161616;--surface2:#1e1e1e;--border:#2a2a2a;--accent:#c9922a;--accent2:#e8b84b;--text:#f0ede8;--muted:#8a8075;--nav-h:72px;}
+    [data-theme="light"]{--bg:#faf8f4;--surface:#ffffff;--surface2:#f2ede6;--border:#e0d8cc;--accent:#b07d1e;--accent2:#c9922a;--text:#1a1208;--muted:#7a6a55;}
+    [data-theme="light"] nav{background:rgba(250,248,244,0.95)!important;}
+    [data-theme="light"] .btn-login,[data-theme="light"] .btn-primary-gold,[data-theme="light"] .btn-submit{color:#fff!important;}
+    .theme-toggle{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--surface2);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;transition:border-color .2s,transform .35s,background .3s;flex-shrink:0}
+    .theme-toggle:hover{border-color:var(--accent);transform:rotate(25deg)}
+    body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(13,13,13,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);transition:background .3s,border-color .3s}
+    .nav-brand{font-family:"Playfair Display",serif;font-size:1.25rem;font-weight:700;display:flex;align-items:center;gap:10px}
+    .nav-brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block}
+    .nav-links{display:flex;align-items:center;gap:8px;list-style:none}
+    .nav-links a{padding:6px 18px;border-radius:30px;font-size:.875rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;transition:background .2s,color .2s;color:var(--muted)}
+    .nav-links a:hover,.nav-links a.active{background:var(--surface2);color:var(--text)}
+    .nav-actions{display:flex;align-items:center;gap:12px}
+    .btn-login{background:var(--accent);color:#000!important;padding:8px 20px;border-radius:30px;font-weight:600;font-size:.875rem;display:flex;align-items:center;gap:6px;transition:background .2s}
+    .btn-login:hover{background:var(--accent2)}
+    .page-header{padding:calc(var(--nav-h) + 80px) 48px 60px;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+    .page-header::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(201,146,42,.07) 0%,transparent 70%);pointer-events:none}
+    .page-header .label{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:16px}
+    .page-header h1{font-family:"Playfair Display",serif;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:900;line-height:1.05;max-width:680px;margin-bottom:24px}
+    .page-header h1 em{font-style:italic;color:var(--accent)}
+    .page-header p{color:var(--muted);font-size:1.05rem;line-height:1.8;max-width:560px}
+    .mission{padding:100px 48px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+    .mission-text .section-label{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:16px}
+    .mission-text h2{font-family:"Playfair Display",serif;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:700;margin-bottom:24px;line-height:1.2}
+    .mission-text p{color:var(--muted);font-size:.95rem;line-height:1.85;margin-bottom:16px}
+    .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+    .stat-box{background:var(--surface2);padding:40px 32px;display:flex;flex-direction:column;gap:8px;transition:background .3s}
+    .stat-box .num{font-family:"Playfair Display",serif;font-size:2.8rem;font-weight:900;color:var(--accent);line-height:1}
+    .stat-box .desc{color:var(--muted);font-size:.875rem}
+    .values{padding:100px 48px;background:var(--surface);transition:background .3s}
+    .values-intro{max-width:560px;margin-bottom:64px}
+    .values-intro .section-label{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:16px}
+    .values-intro h2{font-family:"Playfair Display",serif;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:700}
+    .values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+    .value-card{background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:40px 32px;transition:border-color .3s,transform .3s,background .3s}
+    .value-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+    .value-icon{width:56px;height:56px;background:rgba(201,146,42,.1);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--accent);margin-bottom:24px}
+    .value-card h3{font-family:"Playfair Display",serif;font-size:1.15rem;font-weight:600;margin-bottom:12px}
+    .value-card p{color:var(--muted);font-size:.875rem;line-height:1.75}
+    .team{padding:100px 48px}
+    .team-intro{max-width:520px;margin-bottom:64px}
+    .team-intro .section-label{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:16px}
+    .team-intro h2{font-family:"Playfair Display",serif;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:700}
+    .team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:24px}
+    .team-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:border-color .3s,background .3s}
+    .team-card:hover{border-color:var(--accent)}
+    .team-avatar{height:180px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:4rem}
+    .team-info{padding:24px}
+    .team-info h4{font-family:"Playfair Display",serif;font-size:1.05rem;font-weight:600;margin-bottom:4px}
+    .team-info p{color:var(--muted);font-size:.8rem}
+    .team-info .role{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600}
+    .story{padding:100px 48px;background:var(--surface);transition:background .3s}
+    .story-inner{display:grid;grid-template-columns:1fr 1.5fr;gap:80px;align-items:start}
+    .story-intro .section-label{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:16px}
+    .story-intro h2{font-family:"Playfair Display",serif;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:700;line-height:1.2}
+    .timeline{display:flex;flex-direction:column}
+    .timeline-item{display:flex;gap:28px;padding:28px 0;border-bottom:1px solid var(--border)}
+    .timeline-item:first-child{border-top:1px solid var(--border)}
+    .timeline-year{font-family:"Playfair Display",serif;font-size:1.1rem;font-weight:700;color:var(--accent);min-width:60px;line-height:1.4}
+    .timeline-content h4{font-weight:600;margin-bottom:6px;font-size:.95rem}
+    .timeline-content p{color:var(--muted);font-size:.85rem;line-height:1.6}
+    .cta-section{padding:100px 48px;text-align:center;position:relative;overflow:hidden}
+    .cta-section::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(201,146,42,.07) 0%,transparent 70%)}
+    .cta-section h2{font-family:"Playfair Display",serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;max-width:600px;margin:0 auto 20px}
+    .cta-section h2 em{font-style:italic;color:var(--accent)}
+    .cta-section p{color:var(--muted);font-size:1rem;max-width:460px;margin:0 auto 40px;line-height:1.8}
+    .btn-primary-gold{display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:#000;padding:14px 36px;border-radius:50px;font-weight:700;font-size:.9rem;letter-spacing:.05em;text-transform:uppercase;transition:background .2s,transform .2s}
+    .btn-primary-gold:hover{background:var(--accent2);transform:translateY(-2px)}
+    footer{background:var(--surface);border-top:1px solid var(--border);padding:40px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;transition:background .3s,border-color .3s}
+    footer p{color:var(--muted);font-size:.85rem}
+    .social-links{display:flex;gap:12px}
+    .social-links a{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:border-color .2s,color .2s}
+    .social-links a:hover{border-color:var(--accent);color:var(--accent)}
+    @media(max-width:900px){nav{padding:0 24px}.page-header,.mission,.values,.team,.story,.cta-section{padding-left:24px;padding-right:24px}footer{padding:32px 24px}.mission,.story-inner{grid-template-columns:1fr;gap:48px}.values-grid{grid-template-columns:1fr 1fr}.nav-links{display:none}}
+    @media(max-width:600px){.values-grid{grid-template-columns:1fr}}
+
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;border:1px solid var(--border);border-radius:8px;background:var(--surface2)}
+    .hamburger span{display:block;width:20px;height:2px;background:var(--text);transition:all .3s}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .mobile-menu{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);z-index:999;padding:20px 24px;flex-direction:column;gap:8px}
+    .mobile-menu.open{display:flex}
+    .mobile-menu a{padding:12px 16px;border-radius:10px;font-size:.9rem;font-weight:500;color:var(--muted);transition:background .2s,color .2s}
+    .mobile-menu a:hover,.mobile-menu a.active{background:var(--surface2);color:var(--text)}
+    @media(max-width:900px){.hamburger{display:flex}}
+
+    #nav-user-btn:hover{border-color:var(--accent) !important;}
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html"><span class="dot"></span>Restaurant Recommendation System</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Restaurants</a></li>
+    <li><a href="suggest.html">Suggest</a></li>
+    <li><a href="why.html" class="active">About Us</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="Login.html" class="btn-login" id="nav-login-btn"><i class="fa fa-user"></i> Login</a>
+    <div id="nav-user-btn" style="display:none;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px 16px;border-radius:30px;font-weight:600;font-size:.875rem;cursor:pointer;transition:border-color .2s" onclick="window.location='Login.html'">
+      <div id="nav-avatar" style="width:26px;height:26px;border-radius:50%;background:var(--accent);color:#000;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0">?</div>
+      <span id="nav-username"></span>
+    </div>
+    <span id="nav-username"></span>
+    </div>
+    <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark mode">☀️</button>
+    <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="shop.html">Restaurants</a>
+  <a href="why.html" class="active">About Us</a>
+  <a href="Login.html" id="mobile-login-link">Login / Register</a>
+</div>
+
+<div class="page-header">
+  <div class="label">Our Story</div>
+  <h1>We Live &amp; Breathe<br><em>Good Food</em></h1>
+  <p>This simple idea: everyone deserves to find a restaurant that feels like it was made just for them.</p>
+</div>
+
+<section class="mission">
+  <div class="mission-text">
+    <div class="section-label">Our Mission</div>
+    <h2>Connecting People With Extraordinary Dining Experiences</h2>
+    <p>This website was created with the goal of bringing people together through quality food and a comfortable environment. We offer a wide selection of cuisines and carefully prepared dishes to ensure every customer enjoys their meal.</p>
+    <p>This website is passionate about the restaurant, food quality and committed to delivering the best dining experience. We believe that good food, friendly service, and a welcoming space make every visit special.</p>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-box"><div class="num">200+</div><div class="desc">Restaurants Listed</div></div>
+    <div class="stat-box"><div class="num">15K+</div><div class="desc">Happy Diners</div></div>
+    <div class="stat-box"><div class="num">4</div><div class="desc">Cities Covered</div></div>
+    <div class="stat-box"><div class="num">98%</div><div class="desc">Satisfaction Rate</div></div>
+  </div>
+</section>
+
+<section class="values">
+  <div class="values-intro"><div class="section-label">What We Stand For</div><h2>Our Core Values</h2></div>
+  <div class="values-grid">
+    <div class="value-card"><div class="value-icon"><i class="fa fa-check-circle"></i></div><h3>Honest Recommendations</h3><p>Every restaurant is verified and reviewed. No sponsored rankings — only genuine, curated picks you can trust.</p></div>
+    <div class="value-card"><div class="value-icon"><i class="fa fa-users"></i></div><h3>Community-Driven</h3><p>Real reviews from real diners. Our community's voices shape every recommendation.</p></div>
+    <div class="value-card"><div class="value-icon"><i class="fa fa-heart"></i></div><h3>Passion for Food</h3><p>We are food lovers first. Every feature we build is driven by our genuine love for great cuisine.</p></div>
+    <div class="value-card"><div class="value-icon"><i class="fa fa-globe"></i></div><h3>Cultural Diversity</h3><p>From street-side noodle shops to fine dining — we celebrate all cuisines and budgets equally.</p></div>
+    <div class="value-card"><div class="value-icon"><i class="fa fa-lock"></i></div><h3>Privacy &amp; Trust</h3><p>Your data stays yours. We are transparent about how we operate and never sell your information.</p></div>
+    <div class="value-card"><div class="value-icon"><i class="fa fa-bolt"></i></div><h3>Always Improving</h3><p>We constantly update our listings and features based on user feedback.</p></div>
+  </div>
+</section>
+
+<section class="team">
+  <div class="team-intro"><div class="section-label">The People</div><h2>Meet the Team Behind Hmu</h2></div>
+  <div class="team-grid">
+    <div class="team-card"><div class="team-avatar">👨‍🍳</div><div class="team-info"><div class="role">Founder &amp; CEO</div><h4>Pwint Hmu Han</h4><p>Food enthusiast with 10+ years in the restaurant industry.</p></div></div>
+    <div class="team-card"><div class="team-avatar">👩‍💻</div><div class="team-info"><div class="role">Lead Developer</div><h4>Khant Thu Aung</h4><p>Full-stack engineer who built the recommendation engine from scratch.</p></div></div>
+    <div class="team-card"><div class="team-avatar">🧑‍🎨</div><div class="team-info"><div class="role">Head of Design</div><h4>May Chel</h4><p>Creates the beautiful experiences you see across all our pages.</p></div></div>
+    <div class="team-card"><div class="team-avatar">👩‍🍽️</div><div class="team-info"><div class="role">Restaurant Curator</div><h4>Romeo</h4><p>Personally visits and vets every restaurant we add to our list.</p></div></div>
+  </div>
+</section>
+
+<section class="story">
+  <div class="story-inner">
+    <div class="story-intro"><div class="section-label">Our Journey</div><h2>How It All Started</h2></div>
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-year">2021</div><div class="timeline-content"><h4>The Idea</h4><p>After one too many disappointing restaurant choices, our founder decided to build a smarter way to discover where to eat.</p></div></div>
+      <div class="timeline-item"><div class="timeline-year">2022</div><div class="timeline-content"><h4>First 50 Restaurants</h4><p>We hand-picked and reviewed the first 50 restaurants in Chiang Mai, establishing our quality benchmark.</p></div></div>
+      <div class="timeline-item"><div class="timeline-year">2023</div><div class="timeline-content"><h4>Expanding to Bangkok &amp; Phuket</h4><p>Growing demand pushed us to expand our coverage across Thailand's major culinary hubs.</p></div></div>
+      <div class="timeline-item"><div class="timeline-year">2024</div><div class="timeline-content"><h4>Member Card System Launch</h4><p>We introduced member cards to reward loyal diners with exclusive discounts and early access.</p></div></div>
+      <div class="timeline-item"><div class="timeline-year">Now</div><div class="timeline-content"><h4>200+ Restaurants &amp; Growing</h4><p>DarlinG continues to grow, driven by our community of food lovers and our passion for great dining.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Ready to Find Your Next <em>Favourite Table?</em></h2>
+  <p>Browse hundreds of restaurants filtered by cuisine, budget, and location — all in one place.</p>
+  <a href="shop.html" class="btn-primary-gold"><i class="fa fa-search"></i> Explore Restaurants</a>
+</section>
+
+<footer>
+  <p>&copy; <span id="yr"></span> DarlinG Restaurant Recommendation. All Rights Reserved.</p>
+  <div class="social-links">
+    <a href="#"><i class="fa fa-facebook"></i></a>
+    <a href="#"><i class="fa fa-twitter"></i></a>
+    <a href="#"><i class="fa fa-instagram"></i></a>
+    <a href="#"><i class="fa fa-youtube"></i></a>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("yr").textContent = new Date().getFullYear();
+  
+  function toggleTheme(){var cur=document.documentElement.getAttribute("data-theme")||"dark";var next=cur==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",next);localStorage.setItem("darling-theme",next);document.getElementById("theme-btn").textContent=next==="dark"?"☀️":"🌙";}
+  (function(){var t=localStorage.getItem("darling-theme")||"dark";document.documentElement.setAttribute("data-theme",t);var b=document.getElementById("theme-btn");if(b)b.textContent=t==="dark"?"☀️":"🌙";})();
+  function toggleMobileMenu(){
+    document.getElementById('hamburger').classList.toggle('open');
+    document.getElementById('mobile-menu').classList.toggle('open');
+  }
+
+  // ── NAV LOGIN STATE ──
+  window.addEventListener('DOMContentLoaded', function(){
+    var u = localStorage.getItem("hmu-username");
+    var loginBtn        = document.getElementById("nav-login-btn");
+    var userBtn         = document.getElementById("nav-user-btn");
+    var usernameEl      = document.getElementById("nav-username");
+    var avatarEl        = document.getElementById("nav-avatar");
+    var mobileLoginLink = document.getElementById("mobile-login-link");
+    if(u){
+      if(loginBtn)        loginBtn.style.display    = "none";
+      if(userBtn)         userBtn.style.display     = "flex";
+      if(usernameEl)      usernameEl.textContent     = u;
+      if(avatarEl)        avatarEl.textContent        = u.charAt(0).toUpperCase();
+      if(mobileLoginLink) mobileLoginLink.textContent = "👤 " + u + " (Profile)";
+      // Show Favourites nav links only when logged in
+      var favItem = document.getElementById("nav-fav-item");
+      var mobileFav = document.getElementById("mobile-fav-link");
+      if(favItem) favItem.style.display = "";
+      if(mobileFav) mobileFav.style.display = "";
+      var sugItem = document.getElementById("nav-suggest-item");
+      var mobileSug = document.getElementById("mobile-suggest-link");
+      if(sugItem) sugItem.style.display = "";
+      if(mobileSug) mobileSug.style.display = "";
+    }
+  });
+</script>
+</body>
+</html>
