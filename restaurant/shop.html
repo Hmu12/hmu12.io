@@ -412,21 +412,37 @@
   var selectedStar = 0;
   var currentRestaurant = null;
 
-  /* ── FAVOURITES ── */
-  function getFavs(){ try{ return JSON.parse(localStorage.getItem("hmu-favs")||"[]"); }catch(e){ return []; } }
-  function setFavs(arr){ localStorage.setItem("hmu-favs", JSON.stringify(arr)); }
-  function isFav(name){ return getFavs().indexOf(name) !== -1; }
-  function toggleFav(name){
-    // ── REQUIRE LOGIN ──
-    if(!localStorage.getItem("hmu-username")){
-      showLoginPrompt();
-      return;
-    }
-    var favs = getFavs(), idx = favs.indexOf(name);
-    if(idx === -1){ favs.push(name); } else { favs.splice(idx,1); }
-    setFavs(favs);
-    renderPage();
-    showToast(idx === -1 ? "❤ Added to Favourites" : "Removed from Favourites");
+  /* ── FAVOURITES (database-backed) ── */
+  var favIds = [];   // stores restaurant IDs from DB
+
+  function loadFavsFromDB(){
+    var uid = localStorage.getItem("hmu-userid");
+    if(!uid){ favIds=[]; return; }
+    var fd=new FormData(); fd.append("action","get"); fd.append("user_id",uid);
+    fetch("favourites.php",{method:"POST",body:fd})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(d.success){ favIds=d.favourites.map(function(f){return parseInt(f.id);}); renderPage(); }
+      }).catch(function(){});
+  }
+
+  function isFav(restId){ return favIds.indexOf(parseInt(restId)) !== -1; }
+
+  function toggleFav(restId){
+    var uid = localStorage.getItem("hmu-userid");
+    if(!uid){ showLoginPrompt(); return; }
+    restId = parseInt(restId);
+    var action = isFav(restId) ? "remove" : "add";
+    var fd=new FormData(); fd.append("action",action); fd.append("user_id",uid); fd.append("restaurant_id",restId);
+    fetch("favourites.php",{method:"POST",body:fd})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(d.success){
+          if(action==="add"){ favIds.push(restId); showToast("❤ Added to Favourites"); }
+          else { favIds=favIds.filter(function(i){return i!==restId;}); showToast("Removed from Favourites"); }
+          renderPage();
+        }
+      }).catch(function(){});
   }
 
   /* ── BUDGET ORDER ── */
@@ -450,7 +466,7 @@
     var favOnlyEl = document.getElementById("fav-only");
     var favOnly = favOnlyEl && favOnlyEl.checked;
     var sorted = sortData(allData);
-    if(favOnly){ var f=getFavs(); sorted=sorted.filter(function(r){ return f.indexOf(r.name)!==-1; }); }
+    if(favOnly){ sorted=sorted.filter(function(r){ return isFav(r.id); }); }
 
     var statusEl = document.getElementById("status");
     if(!sorted.length){
@@ -471,14 +487,15 @@
 
   function buildCard(r){
     var img = r.image || "";
-    var faved = isFav(r.name);
+    var faved = isFav(r.id);
+    var rid = parseInt(r.id);
     var ns = esc(r.name), ls = esc(r.location||""), fs = esc(r.food||""), bs = esc(r.budget||""), rs = esc(String(r.rating)), rv = esc(r.review||"");
     return "<div class='restaurant-card'>"+
-      "<button class='fav-img-btn' onclick=\"toggleFav('"+ns+"')\" title='Save'>"+( faved?"❤":"🤍")+"</button>"+
+      "<button class='fav-img-btn' onclick=\"toggleFav("+rid+")\" title='Save'>"+( faved?"❤":"🤍")+"</button>"+
       "<img src='"+img+"' alt='"+ns+"'"+
         " onerror=\"this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&q=80'\""+
         " onclick=\"openModal(this)\""+
-        " data-name=\""+ns+"\" data-location=\""+ls+"\" data-food=\""+fs+"\""+
+        " data-id=\""+rid+"\" data-name=\""+ns+"\" data-location=\""+ls+"\" data-food=\""+fs+"\""+
         " data-rating=\""+rs+"\" data-budget=\""+bs+"\" data-review=\""+rv+"\" data-img=\""+img+"\" />"+
       "<div class='card-body'>"+
         "<h3>"+r.name+"</h3>"+
@@ -490,8 +507,8 @@
         "</div>"+
         (r.review?"<div class='review-box'>"+r.review+"</div>":"")+
         "<div class='card-actions'>"+
-          "<button class='btn-action "+(faved?"faved":"")+"' onclick=\"toggleFav('"+ns+"')\">"+( faved?"❤ Saved":"🤍 Save")+"</button>"+
-          "<button class='btn-action' onclick=\"openModalOnTab(this,'reviews')\" data-name=\""+ns+"\" data-location=\""+ls+"\" data-food=\""+fs+"\" data-rating=\""+rs+"\" data-budget=\""+bs+"\" data-review=\""+rv+"\" data-img=\""+esc(img)+"\"><i class='fa fa-star'></i> Reviews</button>"+
+          "<button class='btn-action "+(faved?"faved":"")+"' onclick=\"toggleFav("+rid+")\">"+( faved?"❤ Saved":"🤍 Save")+"</button>"+
+          "<button class='btn-action' onclick=\"openModalOnTab(this,'reviews')\" data-id=\""+rid+"\" data-name=\""+ns+"\" data-location=\""+ls+"\" data-food=\""+fs+"\" data-rating=\""+rs+"\" data-budget=\""+bs+"\" data-review=\""+rv+"\" data-img=\""+esc(img)+"\"><i class='fa fa-star'></i> Reviews</button>"+
           "<button class='btn-action' onclick=\"shareRestaurant('"+ns+"')\"><i class='fa fa-share-alt'></i> Share</button>"+
         "</div>"+
       "</div></div>";
@@ -521,7 +538,7 @@
 	  .then(function(data){ console.log(data); return JSON.parse(data); })
       .then(function(data){
         if(data.error) throw new Error(data.error);
-        allData = data; currentPage = 1; renderPage();
+        allData = data; currentPage = 1; loadFavsFromDB();
       })
       .catch(function(err){
         document.getElementById("result").innerHTML =
@@ -746,9 +763,10 @@
       // Wire nav-user-btn click to logout (clear favs) then redirect
       if(userBtn){
         userBtn.onclick = function(){
-          if(confirm("Log out? Your saved favourites will not be available until you log in again.")){            localStorage.removeItem("hmu-username");
+          if(confirm("Log out? Your saved favourites will not be available until you log in again.")){            localStorage.removeItem("hmu-userid");
+            localStorage.removeItem("hmu-username");
             localStorage.removeItem("hmu-email");
-            localStorage.removeItem("hmu-favs");
+            favIds = [];
             window.location = "Login.html";
           }
         };

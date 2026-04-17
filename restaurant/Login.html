@@ -149,9 +149,6 @@
     document.getElementById("panel-"+tab).classList.add("active");
   }
 
-  function getUsers(){ try{ return JSON.parse(localStorage.getItem("hmu-users")||"[]"); }catch(e){ return []; } }
-  function setUsers(arr){ localStorage.setItem("hmu-users",JSON.stringify(arr)); }
-
   function handleRegister(){
     var name=document.getElementById("reg-name").value.trim();
     var email=document.getElementById("reg-email").value.trim().toLowerCase();
@@ -159,12 +156,19 @@
     var al=document.getElementById("reg-alert");
     if(!name||!email||!pass){ al.innerHTML="<div class='alert alert-error'>Please fill in all fields.</div>"; return; }
     if(pass.length<6){ al.innerHTML="<div class='alert alert-error'>Password must be at least 6 characters.</div>"; return; }
-    var users=getUsers();
-    if(users.find(function(u){ return u.email===email; })){ al.innerHTML="<div class='alert alert-error'>An account with this email already exists.</div>"; return; }
-    users.push({name:name,email:email,pass:pass});
-    setUsers(users);
-    al.innerHTML="<div class='alert alert-success'>Account created! Signing you in…</div>";
-    setTimeout(function(){ loginUser(name,email); },800);
+    al.innerHTML="<div class='alert'>Creating account…</div>";
+    var fd=new FormData();
+    fd.append("action","register"); fd.append("name",name); fd.append("email",email); fd.append("pass",pass);
+    fetch("auth.php",{method:"POST",body:fd})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(d.success){
+          al.innerHTML="<div class='alert alert-success'>Account created! Signing you in…</div>";
+          setTimeout(function(){ loginUser(d.user_id,d.name,d.email); },800);
+        } else {
+          al.innerHTML="<div class='alert alert-error'>"+d.error+"</div>";
+        }
+      }).catch(function(){ al.innerHTML="<div class='alert alert-error'>Network error. Please try again.</div>"; });
   }
 
   function handleLogin(){
@@ -172,18 +176,29 @@
     var pass=document.getElementById("login-pass").value;
     var al=document.getElementById("login-alert");
     if(!email||!pass){ al.innerHTML="<div class='alert alert-error'>Please fill in all fields.</div>"; return; }
-    var user=getUsers().find(function(u){ return u.email===email&&u.pass===pass; });
-    if(!user){ al.innerHTML="<div class='alert alert-error'>Incorrect email or password.</div>"; return; }
-    loginUser(user.name,user.email);
+    al.innerHTML="<div class='alert'>Signing in…</div>";
+    var fd=new FormData();
+    fd.append("action","login"); fd.append("email",email); fd.append("pass",pass);
+    fetch("auth.php",{method:"POST",body:fd})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(d.success){
+          loginUser(d.user_id,d.name,d.email);
+        } else {
+          al.innerHTML="<div class='alert alert-error'>"+d.error+"</div>";
+        }
+      }).catch(function(){ al.innerHTML="<div class='alert alert-error'>Network error. Please try again.</div>"; });
   }
 
-  function loginUser(name,email){
+  function loginUser(uid,name,email){
+    localStorage.setItem("hmu-userid",uid);
     localStorage.setItem("hmu-username",name);
     localStorage.setItem("hmu-email",email);
     showProfile(name,email);
   }
 
   function handleLogout(){
+    localStorage.removeItem("hmu-userid");
     localStorage.removeItem("hmu-username");
     localStorage.removeItem("hmu-email");
     localStorage.removeItem("hmu-favs");
